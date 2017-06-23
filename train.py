@@ -22,7 +22,6 @@ tf.app.flags.DEFINE_string('checkpoint_path', None, 'The path to a checkpoint fr
 tf.flags.DEFINE_integer("num_of_steps", 10000, "Number of training steps.")
 tf.flags.DEFINE_integer("log_every_n_steps", 100, "Frequency at which loss and global step are logged.")
 tf.flags.DEFINE_string('data_dir', 'dataset', 'Directory of stored TF records')
-tf.flags.DEFINE_string('export_dir', 'export_dir', 'Directory where graph is saved to.')
 tf.flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
 tf.flags.DEFINE_string('summaries_dir', '/tmp/ges_rec_logs/train', 'Summaries directory')
 tf.flags.DEFINE_integer('save_summaries_secs', 1, 'The frequency with which summaries are saved, in seconds.')
@@ -113,9 +112,6 @@ def main(_):
             session_config=config.session_config
         )
 
-    if FLAGS.export_dir:
-        model.create_inputs()
-        tf.train.write_graph(g, FLAGS.export_dir, 'ges_recog_mlp.pbtxt')
 
 if __name__ == "__main__":
   tf.app.run(main=main)

@@ -59,7 +59,7 @@ def export_test(frozen_model_filename):
     x = graph.get_tensor_by_name('prefix/input/x:0')
     y = graph.get_tensor_by_name('prefix/MLP/output/y:0')
 
-    data_gen = loader.load_inference_data('processed_data/test')
+    data_gen,_ = loader.load_inference_data('processed_data/test')
     inputs, labels = data_gen.next_batch(80)
 
     # We launch a Session to test the exported file

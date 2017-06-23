@@ -48,10 +48,10 @@ pip install -r requirements.txt
 Training:
 
 ```sh
-$ python train.py
+$ python train.py --num_of_steps=20000
 ```
 
-To evaluate an existing or newly generated model (can also be run in parallel during training):
+To evaluate an existing or newly generated model ( run in parallel in another window during training):
 
 ```sh
 $  python evaluate.py
@@ -63,7 +63,7 @@ To run inference on generated model:
 $  python inference.py
 ```
 
-To export saved graph and model checkpoint into a protobuf:
+To export saved graph and model checkpoint into a protobuf (run inference before exporting):
 
 ```sh
 $  python export.py

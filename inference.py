@@ -83,7 +83,7 @@ FLAGS = flags.FLAGS
 flags.DEFINE_string('checkpoint_file', 'train_dir', 'checkpoint file on which to run inference')
 flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
 flags.DEFINE_integer('num_examples', 1, 'num of examples fow which to run inference')
-
+tf.flags.DEFINE_string('export_dir', 'export_dir', 'Directory where graph is saved to.')
 
 def main(_):
 
@@ -139,6 +139,10 @@ def main(_):
         print("---- Confusion Matrix ------")
         print(conf_mat)
         visualize_confusion(conf_mat)
+
+
+    if FLAGS.export_dir:
+        tf.train.write_graph(g, FLAGS.export_dir, 'ges_recog_mlp.pbtxt')
 
 
 if __name__ == '__main__':
