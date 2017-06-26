@@ -1,3 +1,8 @@
+# Copyright 2017 Motorola Mobility LLC
+# author: krishnag@motorola.com
+
+# script containing exporting methods
+
 import os
 import numpy as np
 import tensorflow as tf
@@ -8,6 +13,7 @@ import loader
 
 
 def export(export_path, export_model_name, input_ckpt_name, input_graph_name):
+    """Generate two models (frozen and optimized) for export from meta graph and checkpoint """
 
     input_graph_path = os.path.join(export_path, input_graph_name + '.pbtxt')
 
@@ -47,6 +53,7 @@ def export(export_path, export_model_name, input_ckpt_name, input_graph_name):
 
 
 def export_test(frozen_model_filename):
+    """Test the exported file with examples from data"""
 
     # We use our "load_graph" function
     graph = utils.load_graph(frozen_model_filename)
@@ -59,7 +66,7 @@ def export_test(frozen_model_filename):
     x = graph.get_tensor_by_name('prefix/input/x:0')
     y = graph.get_tensor_by_name('prefix/MLP/output/y:0')
 
-    data_gen,_ = loader.load_inference_data('processed_data/test')
+    data_gen, _ = loader.load_inference_data('processed_data/test')
     inputs, labels = data_gen.next_batch(80)
 
     # We launch a Session to test the exported file
@@ -73,5 +80,7 @@ def export_test(frozen_model_filename):
 
 
 if __name__ == '__main__':
-    export(export_path = "export_dir", export_model_name='ges_recog_mlp', input_ckpt_name='train_dir', input_graph_name ='ges_recog_mlp')
+    export(export_path = "export_dir", export_model_name='ges_recog_mlp', input_ckpt_name='train_dir',
+           input_graph_name ='ges_recog_mlp')
+
     export_test('export_dir/frozen_ges_recog_mlp.pb')

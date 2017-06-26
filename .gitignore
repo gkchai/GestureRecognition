@@ -1,9 +1,7 @@
 # Created by https://www.gitignore.io/api/node,python,macos,linux,webstorm,pycharm
 
 # model checkpoints
-classifiers/saved_models/checkpoints/
-classifiers/plots
-classifiers/stats
+
 
 ### Node ###
 # Logs

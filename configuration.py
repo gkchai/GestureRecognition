@@ -1,3 +1,6 @@
+# Copyright 2017 Motorola Mobility LLC
+# author: krishnag@motorola.com
+
 """Configuration for model and training parameters"""
 
 from __future__ import absolute_import
@@ -23,7 +26,7 @@ class Config(object):
         self.learning_rate = 0.01
 
         # keep probability for dropout layer
-        self.keep_prob = 0.9
+        self.keep_prob = 0.8
 
         # How many model checkpoints to keep.
         self.max_checkpoints_to_keep = 5

@@ -1,3 +1,6 @@
+# Copyright 2017 Motorola Mobility LLC
+# author: krishnag@motorola.com
+
 """Train gesture recognition model"""
 
 from __future__ import absolute_import
@@ -8,7 +11,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import configuration
-import recognition
+import recognition_model
 from tensorflow.contrib.slim.python.slim.learning import train_step
 
 import loader
@@ -37,7 +40,6 @@ def main(_):
     tf.gfile.MakeDirs(FLAGS.summaries_dir)
 
     config = configuration.Config()
-
     tf.logging.info("Building training graph.")
 
     g = tf.Graph()
@@ -64,9 +66,8 @@ def main(_):
 
         print("Num. of epochs = {}".format(np.rint(FLAGS.num_of_steps/np.rint(dataset_train.num_samples*1.0/config.batch_size))))
 
-
         # Build lazy model
-        model = recognition.MLPModel(config, mode='train')
+        model = recognition_model.MLPModel(config, mode='train')
         endpoints = model.build(inputs=series, is_training=True)
 
         loss = model.create_loss(endpoints.logits, labels)
@@ -79,7 +80,7 @@ def main(_):
         # Unable to change checkpoint basename, defaults to model.ckpt
         saver = tf.train.Saver(sess,  max_to_keep=config.max_checkpoints_to_keep)
 
-        # reuse the model variables
+        # reuse the model variables for validation
         tf.get_variable_scope().reuse_variables()
         endpoints_valid = model.build(inputs=series_valid, is_training=False)
         accuracy_validation = slim.metrics.accuracy(endpoints_valid.predicted_classes, labels_valid)
@@ -96,6 +97,7 @@ def main(_):
 
             return [total_loss, should_stop]
 
+
     # Run training
     slim.learning.train(
             train_op=train_op,
@@ -111,7 +113,6 @@ def main(_):
             save_interval_secs=FLAGS.save_interval_secs,
             session_config=config.session_config
         )
-
 
 if __name__ == "__main__":
   tf.app.run(main=main)

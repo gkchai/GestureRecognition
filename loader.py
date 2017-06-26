@@ -1,3 +1,6 @@
+# Copyright 2017 Motorola Mobility LLC
+# author: krishnag@motorola.com
+
 import os
 import numpy as np
 import itertools
@@ -12,9 +15,6 @@ def load_inference_data(path):
     return utils.DataSetGenerator(dataset[:, 1:], dataset[:, 0].astype(np.int32)), dataset
 
 
-# ============== DATASET LOADING ======================
-# We now create a function that creates a Dataset class which will give us many TFRecord files to feed
-# in the examples into a queue in parallel.
 def get_split(split_name, dataset_dir, file_pattern='ges_%s.tfrecords'):
     '''
     Obtains the split - training or validation - to create a Dataset class for feeding the examples into
@@ -102,9 +102,6 @@ def load_batch(dataset, batch_size, preprocess_fn=None, shuffle=False):
     INPUTS:
     - dataset(Dataset): a Dataset class object that is created from the get_split function
     - batch_size(int): determines how big of a batch to train
-    - is_training(bool): to determine whether to perform a training or evaluation preprocessing
-    OUTPUTS:
-    - labels(Tensor): the batch's labels with the shape (batch_size,) (requires one_hot_encoding).
     '''
 
     # First create the data_provider object

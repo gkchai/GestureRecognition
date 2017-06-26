@@ -1,3 +1,7 @@
+# Copyright 2017 Motorola Mobility LLC
+# author: krishnag@motorola.com
+
+
 """Converts gesture data to TFRecords file format"""
 from __future__ import absolute_import
 from __future__ import division
@@ -10,7 +14,6 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
 
-from tensorflow.contrib.learn.python.learn.datasets import mnist
 
 FLAGS = None
 PREFIX = 'ges'

@@ -1,89 +1,23 @@
+# Copyright 2017 Motorola Mobility LLC
+# author: krishnag@motorola.com
+
 import tensorflow as tf
 from tensorflow.python.platform import flags
-import numpy as np
-import sys
+from sklearn.metrics import confusion_matrix, classification_report
 
 import configuration
 import loader
-import recognition
-
-
-from sklearn.metrics import confusion_matrix, classification_report
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-plt.style.use('bmh')
-
+import recognition_model
+import utils
 
 CLASSES = {0:'pickup', 1: 'steady', 2:'dropoff', 3:'unknown'}
-
-def visualize_confusion(conf_mat):
-    fig = plt.figure(figsize=(6, 6))
-    res = plt.imshow(np.array(conf_mat), cmap=plt.get_cmap('summer'), interpolation='nearest')
-    for i, row in enumerate(conf_mat):
-        for j, c in enumerate(row):
-            if c > 0:
-                plt.text(j - .2, i + .1, c, fontsize=15)
-
-    cb = fig.colorbar(res)
-    plt.title('Confusion Matrix')
-    _ = plt.xticks(range(4), CLASSES.values(), rotation=90)
-    _ = plt.yticks(range(4), CLASSES.values())
-    plt.savefig('plots/conf_mat.pdf')
-    # plt.savefig('plots/conf_mat.jpg')
-
-
-# plot some of the training examples
-def visualize_data(examples, labels):
-
-    colors = ['#D62728', '#2C9F2C', '#FD7F23', '#1F77B4', '#9467BD',
-              '#8C564A', '#7F7F7F', '#1FBECF', '#E377C2', '#BCBD27']
-
-    # choose two examples randomly
-    chosen_idxs_list = {}
-    for (class_idx, class_name) in CLASSES.items():
-        chosen_idxs_list[class_idx] = np.random.choice(np.where(labels == class_idx)[0], 2, replace=False)
-
-    # two plots for raw and abs data
-    for plot_type in ['raw', 'abs']:
-        plt.figure(figsize=(11, 7))
-        ci = 0
-        for (class_idx, class_name) in CLASSES.items():
-
-            chosen_idxs = chosen_idxs_list[class_idx]
-
-            # two subplots per class
-            for idx in chosen_idxs:
-                ax = plt.subplot(4, 2, ci + 1)
-                ax.set_title(class_name)
-
-                if plot_type == 'raw':
-                    flat_ex = examples[idx]
-                else:
-                    flat_ex = np.abs(examples[idx])
-
-                split_ex = flat_ex.reshape((-1, 3))
-
-                # pdb.set_trace()
-                plt.plot(split_ex[:, 0], label='ax1', color=colors[0], linewidth=2)
-                plt.plot(split_ex[:, 1], label='ax2', color=colors[1], linewidth=2)
-                plt.plot(split_ex[:, 2], label='ax3', color=colors[2], linewidth=2)
-                plt.xlabel('Samples @20Hz')
-                plt.ylim([-1.5,1.5])
-                plt.legend(loc='upper left')
-                plt.tight_layout()
-                ci += 1
-
-        plt.savefig('plots/data_%s.pdf'%(plot_type))
-        # plt.savefig('plots/data_%s.jpg' % (plot_type))
-
-
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('checkpoint_file', 'train_dir', 'checkpoint file on which to run inference')
 flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
 flags.DEFINE_integer('num_examples', 1, 'num of examples fow which to run inference')
 tf.flags.DEFINE_string('export_dir', 'export_dir', 'Directory where graph is saved to.')
+
 
 def main(_):
 
@@ -99,7 +33,7 @@ def main(_):
     g = tf.Graph()
     with g.as_default():
 
-        model = recognition.MLPModel(config, mode='inference')
+        model = recognition_model.MLPModel(config, mode='inference')
         inputs = model.create_inputs()
         endpoints = model.build(inputs, is_training=False)
 
@@ -138,8 +72,7 @@ def main(_):
         conf_mat = confusion_matrix(labels, predictions_value)
         print("---- Confusion Matrix ------")
         print(conf_mat)
-        visualize_confusion(conf_mat)
-
+        utils.visualize_confusion(conf_mat, CLASSES)
 
     if FLAGS.export_dir:
         tf.train.write_graph(g, FLAGS.export_dir, 'ges_recog_mlp.pbtxt')

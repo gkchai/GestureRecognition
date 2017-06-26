@@ -1,3 +1,6 @@
+# Copyright 2017 Motorola Mobility LLC
+# author: krishnag@motorola.com
+
 """Evaluate the model.
 This script should be run to evaluate built model
 """
@@ -11,7 +14,7 @@ from tensorflow.contrib import metrics
 from tensorflow import app
 from tensorflow.python.platform import flags
 import loader
-import recognition
+import recognition_model
 import configuration
 
 FLAGS = flags.FLAGS
@@ -24,6 +27,7 @@ flags.DEFINE_integer('eval_interval_secs', 1, 'Frequency in seconds to run evalu
 flags.DEFINE_integer('num_of_steps', None, 'Number of times to run evaluation.')
 tf.flags.DEFINE_string('split_name', 'test', 'type of split [test or validation] to use on dataset for evaluation')
 tf.logging.set_verbosity(tf.logging.ERROR)
+
 
 def main(_):
     assert FLAGS.train_dir, "--train_dir is required."
@@ -43,7 +47,7 @@ def main(_):
                                                           preprocess_fn=preprocess_fn)
 
     # Build lazy model
-    model = recognition.MLPModel(configuration.Config(), mode='eval')
+    model = recognition_model.MLPModel(configuration.Config(), mode='eval')
     endpoints = model.build(inputs=series, is_training=False)
     predictions = tf.to_int64(tf.argmax(endpoints.logits, 1))
 

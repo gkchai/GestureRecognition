@@ -1,3 +1,6 @@
+# Copyright 2017 Motorola Mobility LLC
+# author: krishnag@motorola.com
+
 import numpy as np
 import itertools
 import utils

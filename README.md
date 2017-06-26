@@ -11,11 +11,11 @@ evaluation, inference  and exporting.
 
 ## Dataset
 
-500 gestures signatures are collected. The time window is 2 sec (or 40 samples at 20 Hz sampling rate). Size of the
-inputs or the number of features is 120 per gesture.
+500 gestures signatures are collected. The time window is 2 sec (or 40 samples at 20 Hz sampling rate). Total size of the
+inputs (or the number of features) is 120 per gesture.
 
 ```
-raw data from data collection:  ./raw_data/
+raw data from experiments:  ./raw_data/
 processed data merged into train and test data: ./processed_data/
 data in TF records format: ./dataset/
 ```
@@ -24,9 +24,8 @@ data in TF records format: ./dataset/
 ## Prerequisites
 
 ### Install dependencies
-Preferred way is in virtualenv (Python 2.7)
+Preferred way is in virtualenv (Python 2.7/3.5)
 ```sh
-cd GestureRecognition
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
