@@ -1,6 +1,9 @@
 # Copyright 2017 Motorola Mobility LLC
 # author: krishnag@motorola.com
 
+"""Run inference on saved model. Also exports the protobuf"""
+
+import os
 import tensorflow as tf
 from tensorflow.python.platform import flags
 from sklearn.metrics import confusion_matrix, classification_report
@@ -13,7 +16,8 @@ import utils
 CLASSES = {0:'pickup', 1: 'steady', 2:'dropoff', 3:'unknown'}
 
 FLAGS = flags.FLAGS
-flags.DEFINE_string('checkpoint_file', 'train_dir', 'checkpoint file on which to run inference')
+tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN]")
+flags.DEFINE_string('checkpoint_file', os.path.join("train_dir", FLAGS.model), 'checkpoint file on which to run inference')
 flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
 flags.DEFINE_integer('num_examples', 1, 'num of examples fow which to run inference')
 tf.flags.DEFINE_string('export_dir', 'export_dir', 'Directory where graph is saved to.')
@@ -33,7 +37,16 @@ def main(_):
     g = tf.Graph()
     with g.as_default():
 
-        model = recognition_model.MLPModel(config, mode='inference')
+        # Build lazy model
+        if FLAGS.model == 'MLP':
+            model = recognition_model.MLPModel(config, mode='inference')
+        elif FLAGS.model == 'LSTM':
+            model = recognition_model.LSTMModel(config, mode='inference')
+        elif FLAGS.model == 'CNN':
+            model = recognition_model.CNNModel(config, mode='inference')
+        else:
+            raise tf.logging.error("model type not supported")
+
         inputs = model.create_inputs()
         endpoints = model.build(inputs, is_training=False)
 
@@ -75,7 +88,7 @@ def main(_):
         utils.visualize_confusion(conf_mat, CLASSES)
 
     if FLAGS.export_dir:
-        tf.train.write_graph(g, FLAGS.export_dir, 'ges_recog_mlp.pbtxt')
+        tf.train.write_graph(g, FLAGS.export_dir, 'ges_recog_%s.pbtxt' %FLAGS.model.lower())
 
 
 if __name__ == '__main__':

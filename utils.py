@@ -4,6 +4,7 @@
 import os, argparse
 import numpy as np
 import tensorflow as tf
+import tensorflow.contrib.slim as slim
 
 import matplotlib
 matplotlib.use('Agg')
@@ -118,6 +119,31 @@ def load_graph(frozen_graph_filename):
             producer_op_list=None
         )
     return graph
+
+
+def create_init_fn_to_restore(master_checkpoint, train_dir):
+    """Creates an init operations to restore weights from various checkpoints.
+    master_checkpoint is path to a checkpoint which contains all weights for
+    the whole model.
+    """
+    if master_checkpoint is None:
+        return None
+
+    # Warn the user if a checkpoint exists in the train_dir. Then we'll be
+    # ignoring the checkpoint path anyway.
+    if tf.train.latest_checkpoint(train_dir):
+        tf.logging.info(
+            'Ignoring --checkpoint_path because a checkpoint already exists in %s'
+            % train_dir)
+        return None
+
+    if tf.gfile.IsDirectory(master_checkpoint):
+        checkpoint_path = tf.train.latest_checkpoint(master_checkpoint)
+    else:
+        checkpoint_path = master_checkpoint
+
+    tf.logging.info('Fine-tuning from %s' % checkpoint_path)
+    return slim.assign_from_checkpoint_fn(checkpoint_path, slim.get_model_variables())
 
 
 def visualize_confusion(conf_mat, CLASSES):

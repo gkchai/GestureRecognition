@@ -22,13 +22,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/weights/Initializer/random_uniform/shape"
+  name: "fc1/weights/Initializer/random_uniform/shape"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -54,13 +54,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/weights/Initializer/random_uniform/min"
+  name: "fc1/weights/Initializer/random_uniform/min"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -83,13 +83,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/weights/Initializer/random_uniform/max"
+  name: "fc1/weights/Initializer/random_uniform/max"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -112,9 +112,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/weights/Initializer/random_uniform/RandomUniform"
+  name: "fc1/weights/Initializer/random_uniform/RandomUniform"
   op: "RandomUniform"
-  input: "MLP/fc1/weights/Initializer/random_uniform/shape"
+  input: "fc1/weights/Initializer/random_uniform/shape"
   attr {
     key: "T"
     value {
@@ -125,7 +125,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -149,10 +149,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/weights/Initializer/random_uniform/sub"
+  name: "fc1/weights/Initializer/random_uniform/sub"
   op: "Sub"
-  input: "MLP/fc1/weights/Initializer/random_uniform/max"
-  input: "MLP/fc1/weights/Initializer/random_uniform/min"
+  input: "fc1/weights/Initializer/random_uniform/max"
+  input: "fc1/weights/Initializer/random_uniform/min"
   attr {
     key: "T"
     value {
@@ -163,16 +163,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc1/weights/Initializer/random_uniform/mul"
+  name: "fc1/weights/Initializer/random_uniform/mul"
   op: "Mul"
-  input: "MLP/fc1/weights/Initializer/random_uniform/RandomUniform"
-  input: "MLP/fc1/weights/Initializer/random_uniform/sub"
+  input: "fc1/weights/Initializer/random_uniform/RandomUniform"
+  input: "fc1/weights/Initializer/random_uniform/sub"
   attr {
     key: "T"
     value {
@@ -183,16 +183,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc1/weights/Initializer/random_uniform"
+  name: "fc1/weights/Initializer/random_uniform"
   op: "Add"
-  input: "MLP/fc1/weights/Initializer/random_uniform/mul"
-  input: "MLP/fc1/weights/Initializer/random_uniform/min"
+  input: "fc1/weights/Initializer/random_uniform/mul"
+  input: "fc1/weights/Initializer/random_uniform/min"
   attr {
     key: "T"
     value {
@@ -203,19 +203,19 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc1/weights"
+  name: "fc1/weights"
   op: "VariableV2"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -252,10 +252,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/weights/Assign"
+  name: "fc1/weights/Assign"
   op: "Assign"
-  input: "MLP/fc1/weights"
-  input: "MLP/fc1/weights/Initializer/random_uniform"
+  input: "fc1/weights"
+  input: "fc1/weights/Initializer/random_uniform"
   attr {
     key: "T"
     value {
@@ -266,7 +266,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -284,9 +284,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/weights/read"
+  name: "fc1/weights/read"
   op: "Identity"
-  input: "MLP/fc1/weights"
+  input: "fc1/weights"
   attr {
     key: "T"
     value {
@@ -297,19 +297,19 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc1/biases/Initializer/zeros"
+  name: "fc1/biases/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/biases"
+        s: "loc:@fc1/biases"
       }
     }
   }
@@ -335,13 +335,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/biases"
+  name: "fc1/biases"
   op: "VariableV2"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/biases"
+        s: "loc:@fc1/biases"
       }
     }
   }
@@ -375,10 +375,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/biases/Assign"
+  name: "fc1/biases/Assign"
   op: "Assign"
-  input: "MLP/fc1/biases"
-  input: "MLP/fc1/biases/Initializer/zeros"
+  input: "fc1/biases"
+  input: "fc1/biases/Initializer/zeros"
   attr {
     key: "T"
     value {
@@ -389,7 +389,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/biases"
+        s: "loc:@fc1/biases"
       }
     }
   }
@@ -407,9 +407,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/biases/read"
+  name: "fc1/biases/read"
   op: "Identity"
-  input: "MLP/fc1/biases"
+  input: "fc1/biases"
   attr {
     key: "T"
     value {
@@ -420,16 +420,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/biases"
+        s: "loc:@fc1/biases"
       }
     }
   }
 }
 node {
-  name: "MLP/fc1/MatMul"
+  name: "Model/fc1/MatMul"
   op: "MatMul"
   input: "input/x"
-  input: "MLP/fc1/weights/read"
+  input: "fc1/weights/read"
   attr {
     key: "T"
     value {
@@ -450,10 +450,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/BiasAdd"
+  name: "Model/fc1/BiasAdd"
   op: "BiasAdd"
-  input: "MLP/fc1/MatMul"
-  input: "MLP/fc1/biases/read"
+  input: "Model/fc1/MatMul"
+  input: "fc1/biases/read"
   attr {
     key: "T"
     value {
@@ -468,9 +468,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc1/Relu"
+  name: "Model/fc1/Relu"
   op: "Relu"
-  input: "MLP/fc1/BiasAdd"
+  input: "Model/fc1/BiasAdd"
   attr {
     key: "T"
     value {
@@ -479,13 +479,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/weights/Initializer/random_uniform/shape"
+  name: "fc2/weights/Initializer/random_uniform/shape"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -511,13 +511,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/weights/Initializer/random_uniform/min"
+  name: "fc2/weights/Initializer/random_uniform/min"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -540,13 +540,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/weights/Initializer/random_uniform/max"
+  name: "fc2/weights/Initializer/random_uniform/max"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -569,9 +569,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/weights/Initializer/random_uniform/RandomUniform"
+  name: "fc2/weights/Initializer/random_uniform/RandomUniform"
   op: "RandomUniform"
-  input: "MLP/fc2/weights/Initializer/random_uniform/shape"
+  input: "fc2/weights/Initializer/random_uniform/shape"
   attr {
     key: "T"
     value {
@@ -582,7 +582,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -606,10 +606,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/weights/Initializer/random_uniform/sub"
+  name: "fc2/weights/Initializer/random_uniform/sub"
   op: "Sub"
-  input: "MLP/fc2/weights/Initializer/random_uniform/max"
-  input: "MLP/fc2/weights/Initializer/random_uniform/min"
+  input: "fc2/weights/Initializer/random_uniform/max"
+  input: "fc2/weights/Initializer/random_uniform/min"
   attr {
     key: "T"
     value {
@@ -620,16 +620,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc2/weights/Initializer/random_uniform/mul"
+  name: "fc2/weights/Initializer/random_uniform/mul"
   op: "Mul"
-  input: "MLP/fc2/weights/Initializer/random_uniform/RandomUniform"
-  input: "MLP/fc2/weights/Initializer/random_uniform/sub"
+  input: "fc2/weights/Initializer/random_uniform/RandomUniform"
+  input: "fc2/weights/Initializer/random_uniform/sub"
   attr {
     key: "T"
     value {
@@ -640,16 +640,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc2/weights/Initializer/random_uniform"
+  name: "fc2/weights/Initializer/random_uniform"
   op: "Add"
-  input: "MLP/fc2/weights/Initializer/random_uniform/mul"
-  input: "MLP/fc2/weights/Initializer/random_uniform/min"
+  input: "fc2/weights/Initializer/random_uniform/mul"
+  input: "fc2/weights/Initializer/random_uniform/min"
   attr {
     key: "T"
     value {
@@ -660,19 +660,19 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc2/weights"
+  name: "fc2/weights"
   op: "VariableV2"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -709,10 +709,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/weights/Assign"
+  name: "fc2/weights/Assign"
   op: "Assign"
-  input: "MLP/fc2/weights"
-  input: "MLP/fc2/weights/Initializer/random_uniform"
+  input: "fc2/weights"
+  input: "fc2/weights/Initializer/random_uniform"
   attr {
     key: "T"
     value {
@@ -723,7 +723,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -741,9 +741,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/weights/read"
+  name: "fc2/weights/read"
   op: "Identity"
-  input: "MLP/fc2/weights"
+  input: "fc2/weights"
   attr {
     key: "T"
     value {
@@ -754,19 +754,19 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc2/biases/Initializer/zeros"
+  name: "fc2/biases/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/biases"
+        s: "loc:@fc2/biases"
       }
     }
   }
@@ -792,13 +792,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/biases"
+  name: "fc2/biases"
   op: "VariableV2"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/biases"
+        s: "loc:@fc2/biases"
       }
     }
   }
@@ -832,10 +832,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/biases/Assign"
+  name: "fc2/biases/Assign"
   op: "Assign"
-  input: "MLP/fc2/biases"
-  input: "MLP/fc2/biases/Initializer/zeros"
+  input: "fc2/biases"
+  input: "fc2/biases/Initializer/zeros"
   attr {
     key: "T"
     value {
@@ -846,7 +846,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/biases"
+        s: "loc:@fc2/biases"
       }
     }
   }
@@ -864,9 +864,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/biases/read"
+  name: "fc2/biases/read"
   op: "Identity"
-  input: "MLP/fc2/biases"
+  input: "fc2/biases"
   attr {
     key: "T"
     value {
@@ -877,16 +877,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/biases"
+        s: "loc:@fc2/biases"
       }
     }
   }
 }
 node {
-  name: "MLP/fc2/MatMul"
+  name: "Model/fc2/MatMul"
   op: "MatMul"
-  input: "MLP/fc1/Relu"
-  input: "MLP/fc2/weights/read"
+  input: "Model/fc1/Relu"
+  input: "fc2/weights/read"
   attr {
     key: "T"
     value {
@@ -907,10 +907,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/BiasAdd"
+  name: "Model/fc2/BiasAdd"
   op: "BiasAdd"
-  input: "MLP/fc2/MatMul"
-  input: "MLP/fc2/biases/read"
+  input: "Model/fc2/MatMul"
+  input: "fc2/biases/read"
   attr {
     key: "T"
     value {
@@ -925,9 +925,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc2/Relu"
+  name: "Model/fc2/Relu"
   op: "Relu"
-  input: "MLP/fc2/BiasAdd"
+  input: "Model/fc2/BiasAdd"
   attr {
     key: "T"
     value {
@@ -936,9 +936,9 @@ node {
   }
 }
 node {
-  name: "MLP/dropout/Identity"
+  name: "Model/dropout/Identity"
   op: "Identity"
-  input: "MLP/fc2/Relu"
+  input: "Model/fc2/Relu"
   attr {
     key: "T"
     value {
@@ -947,13 +947,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/weights/Initializer/random_uniform/shape"
+  name: "fc3/weights/Initializer/random_uniform/shape"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
@@ -979,13 +979,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/weights/Initializer/random_uniform/min"
+  name: "fc3/weights/Initializer/random_uniform/min"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
@@ -1008,13 +1008,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/weights/Initializer/random_uniform/max"
+  name: "fc3/weights/Initializer/random_uniform/max"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
@@ -1037,9 +1037,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/weights/Initializer/random_uniform/RandomUniform"
+  name: "fc3/weights/Initializer/random_uniform/RandomUniform"
   op: "RandomUniform"
-  input: "MLP/fc3/weights/Initializer/random_uniform/shape"
+  input: "fc3/weights/Initializer/random_uniform/shape"
   attr {
     key: "T"
     value {
@@ -1050,7 +1050,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
@@ -1074,10 +1074,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/weights/Initializer/random_uniform/sub"
+  name: "fc3/weights/Initializer/random_uniform/sub"
   op: "Sub"
-  input: "MLP/fc3/weights/Initializer/random_uniform/max"
-  input: "MLP/fc3/weights/Initializer/random_uniform/min"
+  input: "fc3/weights/Initializer/random_uniform/max"
+  input: "fc3/weights/Initializer/random_uniform/min"
   attr {
     key: "T"
     value {
@@ -1088,16 +1088,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc3/weights/Initializer/random_uniform/mul"
+  name: "fc3/weights/Initializer/random_uniform/mul"
   op: "Mul"
-  input: "MLP/fc3/weights/Initializer/random_uniform/RandomUniform"
-  input: "MLP/fc3/weights/Initializer/random_uniform/sub"
+  input: "fc3/weights/Initializer/random_uniform/RandomUniform"
+  input: "fc3/weights/Initializer/random_uniform/sub"
   attr {
     key: "T"
     value {
@@ -1108,16 +1108,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc3/weights/Initializer/random_uniform"
+  name: "fc3/weights/Initializer/random_uniform"
   op: "Add"
-  input: "MLP/fc3/weights/Initializer/random_uniform/mul"
-  input: "MLP/fc3/weights/Initializer/random_uniform/min"
+  input: "fc3/weights/Initializer/random_uniform/mul"
+  input: "fc3/weights/Initializer/random_uniform/min"
   attr {
     key: "T"
     value {
@@ -1128,19 +1128,19 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc3/weights"
+  name: "fc3/weights"
   op: "VariableV2"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
@@ -1177,10 +1177,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/weights/Assign"
+  name: "fc3/weights/Assign"
   op: "Assign"
-  input: "MLP/fc3/weights"
-  input: "MLP/fc3/weights/Initializer/random_uniform"
+  input: "fc3/weights"
+  input: "fc3/weights/Initializer/random_uniform"
   attr {
     key: "T"
     value {
@@ -1191,7 +1191,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
@@ -1209,9 +1209,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/weights/read"
+  name: "fc3/weights/read"
   op: "Identity"
-  input: "MLP/fc3/weights"
+  input: "fc3/weights"
   attr {
     key: "T"
     value {
@@ -1222,19 +1222,19 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
 }
 node {
-  name: "MLP/fc3/biases/Initializer/zeros"
+  name: "fc3/biases/Initializer/zeros"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/biases"
+        s: "loc:@fc3/biases"
       }
     }
   }
@@ -1260,13 +1260,13 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/biases"
+  name: "fc3/biases"
   op: "VariableV2"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/biases"
+        s: "loc:@fc3/biases"
       }
     }
   }
@@ -1300,10 +1300,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/biases/Assign"
+  name: "fc3/biases/Assign"
   op: "Assign"
-  input: "MLP/fc3/biases"
-  input: "MLP/fc3/biases/Initializer/zeros"
+  input: "fc3/biases"
+  input: "fc3/biases/Initializer/zeros"
   attr {
     key: "T"
     value {
@@ -1314,7 +1314,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/biases"
+        s: "loc:@fc3/biases"
       }
     }
   }
@@ -1332,9 +1332,9 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/biases/read"
+  name: "fc3/biases/read"
   op: "Identity"
-  input: "MLP/fc3/biases"
+  input: "fc3/biases"
   attr {
     key: "T"
     value {
@@ -1345,16 +1345,16 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/biases"
+        s: "loc:@fc3/biases"
       }
     }
   }
 }
 node {
-  name: "MLP/fc3/MatMul"
+  name: "Model/fc3/MatMul"
   op: "MatMul"
-  input: "MLP/dropout/Identity"
-  input: "MLP/fc3/weights/read"
+  input: "Model/dropout/Identity"
+  input: "fc3/weights/read"
   attr {
     key: "T"
     value {
@@ -1375,10 +1375,10 @@ node {
   }
 }
 node {
-  name: "MLP/fc3/BiasAdd"
+  name: "Model/fc3/BiasAdd"
   op: "BiasAdd"
-  input: "MLP/fc3/MatMul"
-  input: "MLP/fc3/biases/read"
+  input: "Model/fc3/MatMul"
+  input: "fc3/biases/read"
   attr {
     key: "T"
     value {
@@ -1393,7 +1393,7 @@ node {
   }
 }
 node {
-  name: "MLP/output/ArgMax/dimension"
+  name: "Model/output/ArgMax/dimension"
   op: "Const"
   attr {
     key: "dtype"
@@ -1414,10 +1414,10 @@ node {
   }
 }
 node {
-  name: "MLP/output/ArgMax"
+  name: "Model/output/ArgMax"
   op: "ArgMax"
-  input: "MLP/fc3/BiasAdd"
-  input: "MLP/output/ArgMax/dimension"
+  input: "Model/fc3/BiasAdd"
+  input: "Model/output/ArgMax/dimension"
   attr {
     key: "T"
     value {
@@ -1432,9 +1432,9 @@ node {
   }
 }
 node {
-  name: "MLP/output/y"
+  name: "Model/output/y"
   op: "Cast"
-  input: "MLP/output/ArgMax"
+  input: "Model/output/ArgMax"
   attr {
     key: "DstT"
     value {
@@ -1451,7 +1451,7 @@ node {
 node {
   name: "class_probabilities"
   op: "Softmax"
-  input: "MLP/fc3/BiasAdd"
+  input: "Model/fc3/BiasAdd"
   attr {
     key: "T"
     value {
@@ -1499,12 +1499,12 @@ node {
             size: 6
           }
         }
-        string_val: "MLP/fc1/biases"
-        string_val: "MLP/fc1/weights"
-        string_val: "MLP/fc2/biases"
-        string_val: "MLP/fc2/weights"
-        string_val: "MLP/fc3/biases"
-        string_val: "MLP/fc3/weights"
+        string_val: "fc1/biases"
+        string_val: "fc1/weights"
+        string_val: "fc2/biases"
+        string_val: "fc2/weights"
+        string_val: "fc3/biases"
+        string_val: "fc3/weights"
       }
     }
   }
@@ -1544,12 +1544,12 @@ node {
   input: "save/Const"
   input: "save/SaveV2/tensor_names"
   input: "save/SaveV2/shape_and_slices"
-  input: "MLP/fc1/biases"
-  input: "MLP/fc1/weights"
-  input: "MLP/fc2/biases"
-  input: "MLP/fc2/weights"
-  input: "MLP/fc3/biases"
-  input: "MLP/fc3/weights"
+  input: "fc1/biases"
+  input: "fc1/weights"
+  input: "fc2/biases"
+  input: "fc2/weights"
+  input: "fc3/biases"
+  input: "fc3/weights"
   attr {
     key: "dtypes"
     value {
@@ -1603,7 +1603,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc1/biases"
+        string_val: "fc1/biases"
       }
     }
   }
@@ -1650,7 +1650,7 @@ node {
 node {
   name: "save/Assign"
   op: "Assign"
-  input: "MLP/fc1/biases"
+  input: "fc1/biases"
   input: "save/RestoreV2"
   attr {
     key: "T"
@@ -1662,7 +1662,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/biases"
+        s: "loc:@fc1/biases"
       }
     }
   }
@@ -1698,7 +1698,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc1/weights"
+        string_val: "fc1/weights"
       }
     }
   }
@@ -1745,7 +1745,7 @@ node {
 node {
   name: "save/Assign_1"
   op: "Assign"
-  input: "MLP/fc1/weights"
+  input: "fc1/weights"
   input: "save/RestoreV2_1"
   attr {
     key: "T"
@@ -1757,7 +1757,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -1793,7 +1793,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc2/biases"
+        string_val: "fc2/biases"
       }
     }
   }
@@ -1840,7 +1840,7 @@ node {
 node {
   name: "save/Assign_2"
   op: "Assign"
-  input: "MLP/fc2/biases"
+  input: "fc2/biases"
   input: "save/RestoreV2_2"
   attr {
     key: "T"
@@ -1852,7 +1852,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/biases"
+        s: "loc:@fc2/biases"
       }
     }
   }
@@ -1888,7 +1888,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc2/weights"
+        string_val: "fc2/weights"
       }
     }
   }
@@ -1935,7 +1935,7 @@ node {
 node {
   name: "save/Assign_3"
   op: "Assign"
-  input: "MLP/fc2/weights"
+  input: "fc2/weights"
   input: "save/RestoreV2_3"
   attr {
     key: "T"
@@ -1947,7 +1947,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -1983,7 +1983,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc3/biases"
+        string_val: "fc3/biases"
       }
     }
   }
@@ -2030,7 +2030,7 @@ node {
 node {
   name: "save/Assign_4"
   op: "Assign"
-  input: "MLP/fc3/biases"
+  input: "fc3/biases"
   input: "save/RestoreV2_4"
   attr {
     key: "T"
@@ -2042,7 +2042,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/biases"
+        s: "loc:@fc3/biases"
       }
     }
   }
@@ -2078,7 +2078,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc3/weights"
+        string_val: "fc3/weights"
       }
     }
   }
@@ -2125,7 +2125,7 @@ node {
 node {
   name: "save/Assign_5"
   op: "Assign"
-  input: "MLP/fc3/weights"
+  input: "fc3/weights"
   input: "save/RestoreV2_5"
   attr {
     key: "T"
@@ -2137,7 +2137,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
@@ -2167,12 +2167,12 @@ node {
 node {
   name: "report_uninitialized_variables/IsVariableInitialized"
   op: "IsVariableInitialized"
-  input: "MLP/fc1/weights"
+  input: "fc1/weights"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -2186,12 +2186,12 @@ node {
 node {
   name: "report_uninitialized_variables/IsVariableInitialized_1"
   op: "IsVariableInitialized"
-  input: "MLP/fc1/biases"
+  input: "fc1/biases"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/biases"
+        s: "loc:@fc1/biases"
       }
     }
   }
@@ -2205,12 +2205,12 @@ node {
 node {
   name: "report_uninitialized_variables/IsVariableInitialized_2"
   op: "IsVariableInitialized"
-  input: "MLP/fc2/weights"
+  input: "fc2/weights"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -2224,12 +2224,12 @@ node {
 node {
   name: "report_uninitialized_variables/IsVariableInitialized_3"
   op: "IsVariableInitialized"
-  input: "MLP/fc2/biases"
+  input: "fc2/biases"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/biases"
+        s: "loc:@fc2/biases"
       }
     }
   }
@@ -2243,12 +2243,12 @@ node {
 node {
   name: "report_uninitialized_variables/IsVariableInitialized_4"
   op: "IsVariableInitialized"
-  input: "MLP/fc3/weights"
+  input: "fc3/weights"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }
@@ -2262,12 +2262,12 @@ node {
 node {
   name: "report_uninitialized_variables/IsVariableInitialized_5"
   op: "IsVariableInitialized"
-  input: "MLP/fc3/biases"
+  input: "fc3/biases"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/biases"
+        s: "loc:@fc3/biases"
       }
     }
   }
@@ -2330,12 +2330,12 @@ node {
             size: 6
           }
         }
-        string_val: "MLP/fc1/weights"
-        string_val: "MLP/fc1/biases"
-        string_val: "MLP/fc2/weights"
-        string_val: "MLP/fc2/biases"
-        string_val: "MLP/fc3/weights"
-        string_val: "MLP/fc3/biases"
+        string_val: "fc1/weights"
+        string_val: "fc1/biases"
+        string_val: "fc2/weights"
+        string_val: "fc2/biases"
+        string_val: "fc3/weights"
+        string_val: "fc3/biases"
       }
     }
   }
@@ -2860,12 +2860,12 @@ node {
 node {
   name: "init"
   op: "NoOp"
-  input: "^MLP/fc1/weights/Assign"
-  input: "^MLP/fc1/biases/Assign"
-  input: "^MLP/fc2/weights/Assign"
-  input: "^MLP/fc2/biases/Assign"
-  input: "^MLP/fc3/weights/Assign"
-  input: "^MLP/fc3/biases/Assign"
+  input: "^fc1/weights/Assign"
+  input: "^fc1/biases/Assign"
+  input: "^fc2/weights/Assign"
+  input: "^fc2/biases/Assign"
+  input: "^fc3/weights/Assign"
+  input: "^fc3/biases/Assign"
 }
 node {
   name: "init_1"
@@ -2921,12 +2921,12 @@ node {
             size: 6
           }
         }
-        string_val: "MLP/fc1/biases"
-        string_val: "MLP/fc1/weights"
-        string_val: "MLP/fc2/biases"
-        string_val: "MLP/fc2/weights"
-        string_val: "MLP/fc3/biases"
-        string_val: "MLP/fc3/weights"
+        string_val: "fc1/biases"
+        string_val: "fc1/weights"
+        string_val: "fc2/biases"
+        string_val: "fc2/weights"
+        string_val: "fc3/biases"
+        string_val: "fc3/weights"
       }
     }
   }
@@ -2966,12 +2966,12 @@ node {
   input: "save_1/Const"
   input: "save_1/SaveV2/tensor_names"
   input: "save_1/SaveV2/shape_and_slices"
-  input: "MLP/fc1/biases"
-  input: "MLP/fc1/weights"
-  input: "MLP/fc2/biases"
-  input: "MLP/fc2/weights"
-  input: "MLP/fc3/biases"
-  input: "MLP/fc3/weights"
+  input: "fc1/biases"
+  input: "fc1/weights"
+  input: "fc2/biases"
+  input: "fc2/weights"
+  input: "fc3/biases"
+  input: "fc3/weights"
   attr {
     key: "dtypes"
     value {
@@ -3025,7 +3025,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc1/biases"
+        string_val: "fc1/biases"
       }
     }
   }
@@ -3072,7 +3072,7 @@ node {
 node {
   name: "save_1/Assign"
   op: "Assign"
-  input: "MLP/fc1/biases"
+  input: "fc1/biases"
   input: "save_1/RestoreV2"
   attr {
     key: "T"
@@ -3084,7 +3084,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/biases"
+        s: "loc:@fc1/biases"
       }
     }
   }
@@ -3120,7 +3120,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc1/weights"
+        string_val: "fc1/weights"
       }
     }
   }
@@ -3167,7 +3167,7 @@ node {
 node {
   name: "save_1/Assign_1"
   op: "Assign"
-  input: "MLP/fc1/weights"
+  input: "fc1/weights"
   input: "save_1/RestoreV2_1"
   attr {
     key: "T"
@@ -3179,7 +3179,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc1/weights"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -3215,7 +3215,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc2/biases"
+        string_val: "fc2/biases"
       }
     }
   }
@@ -3262,7 +3262,7 @@ node {
 node {
   name: "save_1/Assign_2"
   op: "Assign"
-  input: "MLP/fc2/biases"
+  input: "fc2/biases"
   input: "save_1/RestoreV2_2"
   attr {
     key: "T"
@@ -3274,7 +3274,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/biases"
+        s: "loc:@fc2/biases"
       }
     }
   }
@@ -3310,7 +3310,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc2/weights"
+        string_val: "fc2/weights"
       }
     }
   }
@@ -3357,7 +3357,7 @@ node {
 node {
   name: "save_1/Assign_3"
   op: "Assign"
-  input: "MLP/fc2/weights"
+  input: "fc2/weights"
   input: "save_1/RestoreV2_3"
   attr {
     key: "T"
@@ -3369,7 +3369,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc2/weights"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -3405,7 +3405,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc3/biases"
+        string_val: "fc3/biases"
       }
     }
   }
@@ -3452,7 +3452,7 @@ node {
 node {
   name: "save_1/Assign_4"
   op: "Assign"
-  input: "MLP/fc3/biases"
+  input: "fc3/biases"
   input: "save_1/RestoreV2_4"
   attr {
     key: "T"
@@ -3464,7 +3464,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/biases"
+        s: "loc:@fc3/biases"
       }
     }
   }
@@ -3500,7 +3500,7 @@ node {
             size: 1
           }
         }
-        string_val: "MLP/fc3/weights"
+        string_val: "fc3/weights"
       }
     }
   }
@@ -3547,7 +3547,7 @@ node {
 node {
   name: "save_1/Assign_5"
   op: "Assign"
-  input: "MLP/fc3/weights"
+  input: "fc3/weights"
   input: "save_1/RestoreV2_5"
   attr {
     key: "T"
@@ -3559,7 +3559,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@MLP/fc3/weights"
+        s: "loc:@fc3/weights"
       }
     }
   }

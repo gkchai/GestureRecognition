@@ -7,6 +7,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
 import numpy as np
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
@@ -20,7 +21,8 @@ import pdb
 
 
 FLAGS = tf.flags.FLAGS
-tf.flags.DEFINE_string("train_dir", "train_dir", "Directory for saving and loading checkpoints.")
+tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN]")
+tf.flags.DEFINE_string("train_dir", os.path.join("train_dir", FLAGS.model), "Directory for saving and loading checkpoints.")
 tf.app.flags.DEFINE_string('checkpoint_path', None, 'The path to a checkpoint from which to fine-tune.')
 tf.flags.DEFINE_integer("num_of_steps", 10000, "Number of training steps.")
 tf.flags.DEFINE_integer("log_every_n_steps", 100, "Frequency at which loss and global step are logged.")
@@ -67,13 +69,22 @@ def main(_):
         print("Num. of epochs = {}".format(np.rint(FLAGS.num_of_steps/np.rint(dataset_train.num_samples*1.0/config.batch_size))))
 
         # Build lazy model
-        model = recognition_model.MLPModel(config, mode='train')
+        if FLAGS.model == 'MLP':
+            model = recognition_model.MLPModel(config, mode='train')
+        elif FLAGS.model == 'LSTM':
+            model = recognition_model.LSTMModel(config, mode='train')
+        elif FLAGS.model == 'CNN':
+            model = recognition_model.CNNModel(config, mode='train')
+        else:
+            raise tf.logging.error("model type not supported")
+
         endpoints = model.build(inputs=series, is_training=True)
 
         loss = model.create_loss(endpoints.logits, labels)
-        init_fn = model.create_init_fn_to_restore(FLAGS.checkpoint_path, FLAGS.train_dir)
+        init_fn = utils.create_init_fn_to_restore(FLAGS.checkpoint_path, FLAGS.train_dir)
 
-        train_op = slim.learning.create_train_op(loss, utils.create_optimizer(config.optimizer, config.learning_rate))
+        train_op = slim.learning.create_train_op(loss, utils.create_optimizer(config.optimizer, config.learning_rate),
+                                                 clip_gradient_norm=config.max_gradient_norm)
         summary_writer = tf.summary.FileWriter(FLAGS.summaries_dir, graph=g)
 
         # Set up the Saver for saving and restoring model checkpoints.
@@ -92,27 +103,26 @@ def main(_):
 
             if step % FLAGS.log_every_n_steps == 0:
                 accuracy = sess.run(accuracy_validation)
-                print('Step %s - Loss: %.4f validation accuracy: %.4f' % (
+                print('Step %s - Loss: %.4f hold-out validation accuracy: %.4f' % (
                     str(step).rjust(6, '0'), total_loss, accuracy))
 
             return [total_loss, should_stop]
 
-
-    # Run training
-    slim.learning.train(
-            train_op=train_op,
-            train_step_fn=train_step_fn,
-            logdir=FLAGS.train_dir,
-            log_every_n_steps=FLAGS.log_every_n_steps,
-            graph=g,
-            number_of_steps=FLAGS.num_of_steps,
-            init_fn=init_fn,
-            saver=saver,
-            summary_writer=summary_writer,
-            save_summaries_secs=FLAGS.save_summaries_secs,
-            save_interval_secs=FLAGS.save_interval_secs,
-            session_config=config.session_config
-        )
+        # Run training loops
+        slim.learning.train(
+                train_op=train_op,
+                train_step_fn=train_step_fn,
+                logdir=FLAGS.train_dir,
+                log_every_n_steps=FLAGS.log_every_n_steps,
+                graph=g,
+                number_of_steps=FLAGS.num_of_steps,
+                init_fn=init_fn,
+                saver=saver,
+                summary_writer=summary_writer,
+                save_summaries_secs=FLAGS.save_summaries_secs,
+                save_interval_secs=FLAGS.save_interval_secs,
+                session_config=config.session_config
+            )
 
 if __name__ == "__main__":
   tf.app.run(main=main)

@@ -1,13 +1,13 @@
 # Copyright 2017 Motorola Mobility LLC
 # author: krishnag@motorola.com
 
-"""Evaluate the model.
-This script should be run to evaluate built model
-"""
+"""Evaluate the model.Run this script to evaluate saved model."""
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
 import tensorflow as tf
 from tensorflow.contrib import slim
 from tensorflow.contrib import metrics
@@ -18,8 +18,9 @@ import recognition_model
 import configuration
 
 FLAGS = flags.FLAGS
+tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN]")
 flags.DEFINE_integer('num_batches', 150, 'Number of batches to run eval for.')
-tf.flags.DEFINE_string("train_dir", 'train_dir', "Directory containing training checkpoints.")
+tf.flags.DEFINE_string("train_dir", os.path.join("train_dir", FLAGS.model), "Directory containing training checkpoints.")
 flags.DEFINE_string('summaries_dir', '/tmp/ges_rec_logs/eval', 'Directory where the evaluation summaries are saved to.')
 tf.flags.DEFINE_string('data_dir', 'dataset', 'Directory of stored TF records')
 tf.flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
@@ -47,7 +48,15 @@ def main(_):
                                                           preprocess_fn=preprocess_fn)
 
     # Build lazy model
-    model = recognition_model.MLPModel(configuration.Config(), mode='eval')
+    if FLAGS.model == 'MLP':
+        model = recognition_model.MLPModel(config, mode='eval')
+    elif FLAGS.model == 'LSTM':
+        model = recognition_model.LSTMModel(config, mode='eval')
+    elif FLAGS.model == 'CNN':
+        model = recognition_model.CNNModel(config, mode='eval')
+    else:
+        raise tf.logging.error("model type not supported")
+
     endpoints = model.build(inputs=series, is_training=False)
     predictions = tf.to_int64(tf.argmax(endpoints.logits, 1))
 

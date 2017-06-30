@@ -1,7 +1,7 @@
 # Copyright 2017 Motorola Mobility LLC
 # author: krishnag@motorola.com
 
-# script containing exporting methods
+"""Script containing exporting methods. Tests exported models"""
 
 import os
 import numpy as np
@@ -10,6 +10,8 @@ from tensorflow.python.tools import freeze_graph
 from tensorflow.python.tools import optimize_for_inference_lib
 import utils
 import loader
+
+from tensorflow.python.platform import flags
 
 
 def export(export_path, export_model_name, input_ckpt_name, input_graph_name):
@@ -24,7 +26,7 @@ def export(export_path, export_model_name, input_ckpt_name, input_graph_name):
 
     input_saver_def_path = ""
     input_binary = False
-    output_node_names = "MLP/output/y"
+    output_node_names = "Model/output/y"
     restore_op_name = "save/restore_all"
     filename_tensor_name = "save/Const:0"
     output_frozen_graph_name = os.path.join(export_path,'frozen_' + export_model_name + '.pb')
@@ -44,7 +46,7 @@ def export(export_path, export_model_name, input_ckpt_name, input_graph_name):
     output_graph_def = optimize_for_inference_lib.optimize_for_inference(
         input_graph_def,
         ["input/x"],  # an array of the input node(s)
-        ["MLP/output/y"],  # an array of output nodes
+        ["Model/output/y"],  # an array of output nodes
         tf.float32.as_datatype_enum)
 
     # Save the optimized graph
@@ -55,6 +57,8 @@ def export(export_path, export_model_name, input_ckpt_name, input_graph_name):
 def export_test(frozen_model_filename):
     """Test the exported file with examples from data"""
 
+    print("\n.......Testing %s ........... \n" % frozen_model_filename)
+
     # We use our "load_graph" function
     graph = utils.load_graph(frozen_model_filename)
 
@@ -64,7 +68,7 @@ def export_test(frozen_model_filename):
 
     # We access the input and output nodes
     x = graph.get_tensor_by_name('prefix/input/x:0')
-    y = graph.get_tensor_by_name('prefix/MLP/output/y:0')
+    y = graph.get_tensor_by_name('prefix/Model/output/y:0')
 
     data_gen, _ = loader.load_inference_data('processed_data/test')
     inputs, labels = data_gen.next_batch(80)
@@ -80,7 +84,15 @@ def export_test(frozen_model_filename):
 
 
 if __name__ == '__main__':
-    export(export_path = "export_dir", export_model_name='ges_recog_mlp', input_ckpt_name='train_dir',
-           input_graph_name ='ges_recog_mlp')
 
-    export_test('export_dir/frozen_ges_recog_mlp.pb')
+    FLAGS = flags.FLAGS
+    tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN]")
+
+    model_basename = 'ges_recog_%s' % str.lower(FLAGS.model)
+
+    export(export_path = "export_dir", export_model_name=model_basename,
+           input_ckpt_name=os.path.join('train_dir', FLAGS.model),
+           input_graph_name =model_basename)
+
+    export_test('export_dir/frozen_%s.pb' % model_basename)
+    export_test('export_dir/optimized_%s.pb' % model_basename)

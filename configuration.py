@@ -34,8 +34,23 @@ class Config(object):
         # length of feature/input
         self.input_len = 120
 
-        # radom seed of trial
+        # random seed of trial
         self.random_seed = 31415
+
+        # clip gradient norm
+        self.max_gradient_norm = 5
 
         # resource config
         self.session_config = tf.ConfigProto(device_count={"GPU": 0})
+
+        # MLP layer parameters
+        self.mlp_params = {'hidden_sizes': [40, 20]}
+
+        # LSTM parameters
+        self.lstm_params = {'hidden_sizes': [40, 20]}
+
+        # CNN parameters
+        self.cnn_params = {
+                            'num_filters': [16, 14, 8], #Number of filters in the conv layers
+                            'num_fc_1': 40 #Number of nodes in fully connected layer
+        }

@@ -10,25 +10,17 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import collections
 
+
 def load_inference_data(path):
     dataset = np.loadtxt(path, delimiter=',')
     return utils.DataSetGenerator(dataset[:, 1:], dataset[:, 0].astype(np.int32)), dataset
 
 
 def get_split(split_name, dataset_dir, file_pattern='ges_%s.tfrecords'):
-    '''
-    Obtains the split - training or validation - to create a Dataset class for feeding the examples into
+    """ Obtains the split - training or validation - to create a Dataset class for feeding the examples into
     a queue later on. This function will set up the decoder and dataset information all into one Dataset
-    class so that you can avoid the brute work later on. Your file_pattern is very important in locating
-    the files later.
-    INPUTS:
-    - split_name(str): 'train' or 'validation' or 'test'. Used to get the correct data split of tfrecord files
-    - dataset_dir(str): the dataset directory where the tfrecord files are located
-    - file_pattern(str): the file name structure of the tfrecord files in order to get the correct data
-    OUTPUTS:
-    - dataset (Dataset): A Dataset class object where we can read its various components for easier batch
-    creation later.
-    '''
+    class. dataset_dir is directory where the tfrecord files are located. file_pattern is  the file name
+    structure of the tfrecord files in order to get the correct data"""
 
     # First check whether the split_name is train or validation
     if split_name not in ['train', 'validation', 'test']:
@@ -97,12 +89,7 @@ def get_split(split_name, dataset_dir, file_pattern='ges_%s.tfrecords'):
 
 
 def load_batch(dataset, batch_size, preprocess_fn=None, shuffle=False):
-    '''
-    Loads a batch for training.
-    INPUTS:
-    - dataset(Dataset): a Dataset class object that is created from the get_split function
-    - batch_size(int): determines how big of a batch to train
-    '''
+    """Loads a batch for training. dataset is class object that is created from the get_split function"""
 
     # First create the data_provider object
     data_provider = slim.dataset_data_provider.DatasetDataProvider(
@@ -116,7 +103,7 @@ def load_batch(dataset, batch_size, preprocess_fn=None, shuffle=False):
     # Obtain the raw image using the get method
     raw_series, label = data_provider.get(['series', 'label'])
 
-    # convert to int32
+    # convert to int32 from int64
     label = tf.to_int32(label)
 
     label_one_hot = tf.to_int32(slim.one_hot_encoding(label, dataset.num_classes))
