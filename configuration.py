@@ -19,11 +19,17 @@ class Config(object):
         # num of data examples in a batch
         self.batch_size = 10
 
-        # optimizer to use
-        self.optimizer = "sgd"
+        # optimizer to use (Ftrl, RMSProp, Adam, Adagrad, SGD, Momentum)
+        self.optimizer = "SGD"
 
         # learning rate
         self.learning_rate = 0.01
+
+        # learning rate decay factor
+        self.decay_factor = 0.95
+
+        # epochs after which learning rate changes
+        self.epochs_per_decay = 5
 
         # keep probability for dropout layer
         self.keep_prob = 0.8
@@ -38,7 +44,7 @@ class Config(object):
         self.random_seed = 31415
 
         # clip gradient norm
-        self.max_gradient_norm = 5
+        self.max_gradient_norm = 5.0
 
         # resource config
         self.session_config = tf.ConfigProto(device_count={"GPU": 0})
@@ -51,6 +57,6 @@ class Config(object):
 
         # CNN parameters
         self.cnn_params = {
-                            'num_filters': [16, 14, 8], #Number of filters in the conv layers
-                            'num_fc_1': 40 #Number of nodes in fully connected layer
+                            'num_filters': [16, 32, 16], #Number of filters in the conv layers
+                            'num_fc_1': 32 #Number of nodes in fully connected layer
         }

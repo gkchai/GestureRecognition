@@ -21,6 +21,7 @@ class Model(object):
     def __init__(self, config, mode, mparams=None):
         self._config = config
         self.mode = mode
+        self.global_step = None
         self._mparams = self.default_mparams()
         if mparams:
             self._mparams.update(mparams)
@@ -30,6 +31,15 @@ class Model(object):
 
     def set_mparam(self, var, **kwargs):
         self._mparams[var] = self._mparams[var]._replace(**kwargs)
+
+    def setup_global_step(self):
+        global_step = tf.Variable(
+            initial_value=0,
+            name="global_step",
+            trainable=False,
+            collections=[tf.GraphKeys.GLOBAL_STEP, tf.GraphKeys.GLOBAL_VARIABLES])
+
+        self.global_step = global_step
 
     def create_loss(self, logits, labels):
         with tf.name_scope('cross_entropy'):
@@ -42,10 +52,13 @@ class Model(object):
         tf.summary.scalar('TotalLoss', totalLoss)
         return totalLoss
 
-    def create_inputs(self):
+    def create_inputs(self, is_2D=False):
         # Input placeholders
         with tf.name_scope('input'):
-            inputs = tf.placeholder(tf.float32, [None, self._config.input_len], name='x')
+            if is_2D:
+                inputs = tf.placeholder(tf.float32, [None, 3, self._config.input_len//3, 1], name='x')
+            else:
+                inputs = tf.placeholder(tf.float32, [None, self._config.input_len], name='x')
             return inputs
 
 
@@ -54,6 +67,7 @@ class MLPModel(Model):
 
     def __init__(self, config, mode):
         super(MLPModel, self).__init__(config, mode, None)
+        self.setup_global_step()
 
     def create_base(self, inputs, is_training):
         """Creates a base part of the Model (no gradients, losses or summaries)."""
@@ -67,11 +81,14 @@ class MLPModel(Model):
                 # first fully connected layer
                 net = slim.fully_connected(inputs, self._config.mlp_params['hidden_sizes'][0], scope='fc1')
 
+                # dropout1
+                net = slim.dropout(net, self._config.keep_prob, is_training=is_training, scope='dropout1')
+
                 # second fully connected layer
                 net = slim.fully_connected(net, self._config.mlp_params['hidden_sizes'][1], scope='fc2')
 
-                # dropout
-                net = slim.dropout(net, self._config.keep_prob, is_training=is_training,  scope='dropout')
+                # dropout2
+                net = slim.dropout(net, self._config.keep_prob, is_training=is_training,  scope='dropout2')
 
                 # final fully-connected dense layer
                 logits = slim.fully_connected(net, self._config.num_classes, activation_fn=None, scope='fc3')
@@ -96,6 +113,7 @@ class LSTMModel(Model):
 
     def __init__(self, config, mode):
         super(LSTMModel, self).__init__(config, mode, None)
+        self.setup_global_step()
 
     def create_base(self, inputs, is_training):
 
@@ -145,6 +163,7 @@ class CNNModel(Model):
 
     def __init__(self, config, mode):
         super(CNNModel, self).__init__(config, mode, None)
+        self.setup_global_step()
 
     def create_base(self, inputs, is_training):
 
@@ -160,7 +179,6 @@ class CNNModel(Model):
         def max_pool_2x2(x):
             return tf.nn.max_pool(x, ksize=[1, 2, 2, 1],
                                   strides=[1, 2, 2, 1], padding='SAME')
-
 
         # TODO: simplify layers construction using TF-slim
         with tf.name_scope('Model'):
@@ -211,6 +229,48 @@ class CNNModel(Model):
                 predicted_classes = tf.to_int32(tf.argmax(logits, dimension=1), name='y')
 
         return logits, predicted_classes
+
+    def build(self, inputs=None, is_training=False):
+
+        logits, predicted_classes = self.create_base(inputs, is_training)
+        return OutputEndpoints(
+            logits=logits,
+            class_probabilities=tf.nn.softmax(logits, name='class_probabilities'),
+            predicted_classes=predicted_classes
+        )
+
+
+class CNN2DModel(Model):
+
+    def __init__(self,config, mode):
+        super(CNN2DModel, self).__init__(config, mode, None)
+        self.setup_global_step()
+
+    def create_base(self, inputs, is_training):
+
+        params = self._config.cnn_params
+        print("input dimension = {}".format(inputs.get_shape()))
+
+        with tf.name_scope('Model'):
+            with slim.arg_scope([slim.conv2d, slim.fully_connected], activation_fn=tf.nn.relu,
+                                # normalizer_fn=slim.batch_norm,
+                                # normalizer_params={'is_training': is_training}
+                                # weights_initializer=initializer = tf.contrib.layers.xavier_initializer(seed = 10)
+                                ):
+
+                # inputs is 2D with dimension (3 x feature_len)
+                net = slim.conv2d(inputs, params['num_filters'][0], [3,5], scope='conv1')
+                net = slim.conv2d(net, params['num_filters'][1], [3, 5], scope='conv2')
+                net = slim.conv2d(net, params['num_filters'][2], [3, 5], scope='conv3')
+                net = slim.flatten(net, scope='flatten1')
+                net = slim.fully_connected(net, params['num_fc_1'], scope='fc1')
+                net = slim.dropout(net, self._config.keep_prob, is_training=is_training, scope='dropout1')
+                logits = slim.fully_connected(net, self._config.num_classes, activation_fn=None, scope='fc2')
+
+                with tf.name_scope('output'):
+                    predicted_classes = tf.to_int32(tf.argmax(logits, dimension=1), name='y')
+
+            return logits, predicted_classes
 
     def build(self, inputs=None, is_training=False):
 

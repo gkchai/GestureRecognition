@@ -5819,6 +5819,143 @@ node {
   }
 }
 node {
+  name: "global_step/initial_value"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "global_step"
+  op: "VariableV2"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "global_step/Assign"
+  op: "Assign"
+  input: "global_step"
+  input: "global_step/initial_value"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@global_step"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "global_step/read"
+  op: "Identity"
+  input: "global_step"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@global_step"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
   name: "fc1/weights/Initializer/random_uniform/shape"
   op: "Const"
   attr {
@@ -5986,7 +6123,7 @@ node {
   attr {
     key: "seed2"
     value {
-      i: 201
+      i: 205
     }
   }
 }
@@ -6498,6 +6635,351 @@ node {
   }
 }
 node {
+  name: "Model/dropout1/dropout/keep_prob"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.800000011921
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/Shape"
+  op: "Shape"
+  input: "Model/fc1/Relu"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/random_uniform/min"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.0
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/random_uniform/max"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 1.0
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/random_uniform/RandomUniform"
+  op: "RandomUniform"
+  input: "Model/dropout1/dropout/Shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "seed"
+    value {
+      i: 31415
+    }
+  }
+  attr {
+    key: "seed2"
+    value {
+      i: 223
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/random_uniform/sub"
+  op: "Sub"
+  input: "Model/dropout1/dropout/random_uniform/max"
+  input: "Model/dropout1/dropout/random_uniform/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/random_uniform/mul"
+  op: "Mul"
+  input: "Model/dropout1/dropout/random_uniform/RandomUniform"
+  input: "Model/dropout1/dropout/random_uniform/sub"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/random_uniform"
+  op: "Add"
+  input: "Model/dropout1/dropout/random_uniform/mul"
+  input: "Model/dropout1/dropout/random_uniform/min"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/add"
+  op: "Add"
+  input: "Model/dropout1/dropout/keep_prob"
+  input: "Model/dropout1/dropout/random_uniform"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/Floor"
+  op: "Floor"
+  input: "Model/dropout1/dropout/add"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/div"
+  op: "RealDiv"
+  input: "Model/fc1/Relu"
+  input: "Model/dropout1/dropout/keep_prob"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "Model/dropout1/dropout/mul"
+  op: "Mul"
+  input: "Model/dropout1/dropout/div"
+  input: "Model/dropout1/dropout/Floor"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
   name: "fc2/weights/Initializer/random_uniform/shape"
   op: "Const"
   attr {
@@ -6665,7 +7147,7 @@ node {
   attr {
     key: "seed2"
     value {
-      i: 218
+      i: 234
     }
   }
 }
@@ -7081,7 +7563,7 @@ node {
 node {
   name: "Model/fc2/MatMul"
   op: "MatMul"
-  input: "Model/fc1/Relu"
+  input: "Model/dropout1/dropout/mul"
   input: "fc2/weights/read"
   attr {
     key: "T"
@@ -7177,7 +7659,7 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/keep_prob"
+  name: "Model/dropout2/dropout/keep_prob"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -7207,7 +7689,7 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/Shape"
+  name: "Model/dropout2/dropout/Shape"
   op: "Shape"
   input: "Model/fc2/Relu"
   attr {
@@ -7236,7 +7718,7 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/random_uniform/min"
+  name: "Model/dropout2/dropout/random_uniform/min"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -7266,7 +7748,7 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/random_uniform/max"
+  name: "Model/dropout2/dropout/random_uniform/max"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -7296,9 +7778,9 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/random_uniform/RandomUniform"
+  name: "Model/dropout2/dropout/random_uniform/RandomUniform"
   op: "RandomUniform"
-  input: "Model/dropout/dropout_2/Shape"
+  input: "Model/dropout2/dropout/Shape"
   attr {
     key: "T"
     value {
@@ -7335,15 +7817,15 @@ node {
   attr {
     key: "seed2"
     value {
-      i: 236
+      i: 252
     }
   }
 }
 node {
-  name: "Model/dropout/dropout_2/random_uniform/sub"
+  name: "Model/dropout2/dropout/random_uniform/sub"
   op: "Sub"
-  input: "Model/dropout/dropout_2/random_uniform/max"
-  input: "Model/dropout/dropout_2/random_uniform/min"
+  input: "Model/dropout2/dropout/random_uniform/max"
+  input: "Model/dropout2/dropout/random_uniform/min"
   attr {
     key: "T"
     value {
@@ -7361,10 +7843,10 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/random_uniform/mul"
+  name: "Model/dropout2/dropout/random_uniform/mul"
   op: "Mul"
-  input: "Model/dropout/dropout_2/random_uniform/RandomUniform"
-  input: "Model/dropout/dropout_2/random_uniform/sub"
+  input: "Model/dropout2/dropout/random_uniform/RandomUniform"
+  input: "Model/dropout2/dropout/random_uniform/sub"
   attr {
     key: "T"
     value {
@@ -7388,10 +7870,10 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/random_uniform"
+  name: "Model/dropout2/dropout/random_uniform"
   op: "Add"
-  input: "Model/dropout/dropout_2/random_uniform/mul"
-  input: "Model/dropout/dropout_2/random_uniform/min"
+  input: "Model/dropout2/dropout/random_uniform/mul"
+  input: "Model/dropout2/dropout/random_uniform/min"
   attr {
     key: "T"
     value {
@@ -7415,10 +7897,10 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/add"
+  name: "Model/dropout2/dropout/add"
   op: "Add"
-  input: "Model/dropout/dropout_2/keep_prob"
-  input: "Model/dropout/dropout_2/random_uniform"
+  input: "Model/dropout2/dropout/keep_prob"
+  input: "Model/dropout2/dropout/random_uniform"
   attr {
     key: "T"
     value {
@@ -7442,9 +7924,9 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/Floor"
+  name: "Model/dropout2/dropout/Floor"
   op: "Floor"
-  input: "Model/dropout/dropout_2/add"
+  input: "Model/dropout2/dropout/add"
   attr {
     key: "T"
     value {
@@ -7468,10 +7950,10 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/div"
+  name: "Model/dropout2/dropout/div"
   op: "RealDiv"
   input: "Model/fc2/Relu"
-  input: "Model/dropout/dropout_2/keep_prob"
+  input: "Model/dropout2/dropout/keep_prob"
   attr {
     key: "T"
     value {
@@ -7495,10 +7977,10 @@ node {
   }
 }
 node {
-  name: "Model/dropout/dropout_2/mul"
+  name: "Model/dropout2/dropout/mul"
   op: "Mul"
-  input: "Model/dropout/dropout_2/div"
-  input: "Model/dropout/dropout_2/Floor"
+  input: "Model/dropout2/dropout/div"
+  input: "Model/dropout2/dropout/Floor"
   attr {
     key: "T"
     value {
@@ -7689,7 +8171,7 @@ node {
   attr {
     key: "seed2"
     value {
-      i: 247
+      i: 263
     }
   }
 }
@@ -8105,7 +8587,7 @@ node {
 node {
   name: "Model/fc3/MatMul"
   op: "MatMul"
-  input: "Model/dropout/dropout_2/mul"
+  input: "Model/dropout2/dropout/mul"
   input: "fc3/weights/read"
   attr {
     key: "T"
@@ -8497,13 +8979,13 @@ node {
   }
 }
 node {
-  name: "global_step/Initializer/zeros"
+  name: "OptimizeLoss/learning_rate/Initializer/Const"
   op: "Const"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@global_step"
+        s: "loc:@OptimizeLoss/learning_rate"
       }
     }
   }
@@ -8519,29 +9001,29 @@ node {
   attr {
     key: "dtype"
     value {
-      type: DT_INT64
+      type: DT_FLOAT
     }
   }
   attr {
     key: "value"
     value {
       tensor {
-        dtype: DT_INT64
+        dtype: DT_FLOAT
         tensor_shape {
         }
-        int64_val: 0
+        float_val: 0.5
       }
     }
   }
 }
 node {
-  name: "global_step"
+  name: "OptimizeLoss/learning_rate"
   op: "VariableV2"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@global_step"
+        s: "loc:@OptimizeLoss/learning_rate"
       }
     }
   }
@@ -8563,7 +9045,7 @@ node {
   attr {
     key: "dtype"
     value {
-      type: DT_INT64
+      type: DT_FLOAT
     }
   }
   attr {
@@ -8581,21 +9063,21 @@ node {
   }
 }
 node {
-  name: "global_step/Assign"
+  name: "OptimizeLoss/learning_rate/Assign"
   op: "Assign"
-  input: "global_step"
-  input: "global_step/Initializer/zeros"
+  input: "OptimizeLoss/learning_rate"
+  input: "OptimizeLoss/learning_rate/Initializer/Const"
   attr {
     key: "T"
     value {
-      type: DT_INT64
+      type: DT_FLOAT
     }
   }
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@global_step"
+        s: "loc:@OptimizeLoss/learning_rate"
       }
     }
   }
@@ -8622,20 +9104,20 @@ node {
   }
 }
 node {
-  name: "global_step/read"
+  name: "OptimizeLoss/learning_rate/read"
   op: "Identity"
-  input: "global_step"
+  input: "OptimizeLoss/learning_rate"
   attr {
     key: "T"
     value {
-      type: DT_INT64
+      type: DT_FLOAT
     }
   }
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@global_step"
+        s: "loc:@OptimizeLoss/learning_rate"
       }
     }
   }
@@ -8650,7 +9132,253 @@ node {
   }
 }
 node {
-  name: "gradients/Shape"
+  name: "OptimizeLoss/ExponentialDecay/Cast"
+  op: "Cast"
+  input: "global_step/read"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/ExponentialDecay/Cast_1/x"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_DOUBLE
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_DOUBLE
+        tensor_shape {
+        }
+        double_val: 320.0
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/ExponentialDecay/Cast_1"
+  op: "Cast"
+  input: "OptimizeLoss/ExponentialDecay/Cast_1/x"
+  attr {
+    key: "DstT"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "SrcT"
+    value {
+      type: DT_DOUBLE
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/ExponentialDecay/Cast_2/x"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 0.899999976158
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/ExponentialDecay/truediv"
+  op: "RealDiv"
+  input: "OptimizeLoss/ExponentialDecay/Cast"
+  input: "OptimizeLoss/ExponentialDecay/Cast_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/ExponentialDecay/Floor"
+  op: "Floor"
+  input: "OptimizeLoss/ExponentialDecay/truediv"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/ExponentialDecay/Pow"
+  op: "Pow"
+  input: "OptimizeLoss/ExponentialDecay/Cast_2/x"
+  input: "OptimizeLoss/ExponentialDecay/Floor"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/ExponentialDecay"
+  op: "Mul"
+  input: "OptimizeLoss/learning_rate/read"
+  input: "OptimizeLoss/ExponentialDecay/Pow"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/learning_rate_1/tags"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+        }
+        string_val: "OptimizeLoss/learning_rate_1"
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/learning_rate_1"
+  op: "ScalarSummary"
+  input: "OptimizeLoss/learning_rate_1/tags"
+  input: "OptimizeLoss/ExponentialDecay"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Shape"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -8683,7 +9411,7 @@ node {
   }
 }
 node {
-  name: "gradients/Const"
+  name: "OptimizeLoss/gradients/Const"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -8713,10 +9441,10 @@ node {
   }
 }
 node {
-  name: "gradients/Fill"
+  name: "OptimizeLoss/gradients/Fill"
   op: "Fill"
-  input: "gradients/Shape"
-  input: "gradients/Const"
+  input: "OptimizeLoss/gradients/Shape"
+  input: "OptimizeLoss/gradients/Const"
   attr {
     key: "T"
     value {
@@ -8734,7 +9462,7 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Reshape/shape"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Reshape/shape"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -8770,10 +9498,10 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Reshape"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Reshape"
   op: "Reshape"
-  input: "gradients/Fill"
-  input: "gradients/cross_entropy/Mean_grad/Reshape/shape"
+  input: "OptimizeLoss/gradients/Fill"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Reshape/shape"
   attr {
     key: "T"
     value {
@@ -8800,7 +9528,7 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Shape"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Shape"
   op: "Shape"
   input: "cross_entropy/cross_entropy_per_example/cross_entropy_per_example"
   attr {
@@ -8829,10 +9557,10 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Tile"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Tile"
   op: "Tile"
-  input: "gradients/cross_entropy/Mean_grad/Reshape"
-  input: "gradients/cross_entropy/Mean_grad/Shape"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Reshape"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Shape"
   attr {
     key: "T"
     value {
@@ -8859,7 +9587,7 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Shape_1"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Shape_1"
   op: "Shape"
   input: "cross_entropy/cross_entropy_per_example/cross_entropy_per_example"
   attr {
@@ -8888,7 +9616,7 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Shape_2"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Shape_2"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -8921,76 +9649,7 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Const"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 0
-      }
-    }
-  }
-}
-node {
-  name: "gradients/cross_entropy/Mean_grad/Prod"
-  op: "Prod"
-  input: "gradients/cross_entropy/Mean_grad/Shape_1"
-  input: "gradients/cross_entropy/Mean_grad/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: false
-    }
-  }
-}
-node {
-  name: "gradients/cross_entropy/Mean_grad/Const_1"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Const"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -9026,10 +9685,10 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Prod_1"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Prod"
   op: "Prod"
-  input: "gradients/cross_entropy/Mean_grad/Shape_2"
-  input: "gradients/cross_entropy/Mean_grad/Const_1"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Shape_1"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Const"
   attr {
     key: "T"
     value {
@@ -9059,7 +9718,76 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Maximum/y"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Const_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Prod_1"
+  op: "Prod"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Shape_2"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Const_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Maximum/y"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -9089,10 +9817,10 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Maximum"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Maximum"
   op: "Maximum"
-  input: "gradients/cross_entropy/Mean_grad/Prod_1"
-  input: "gradients/cross_entropy/Mean_grad/Maximum/y"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Prod_1"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Maximum/y"
   attr {
     key: "T"
     value {
@@ -9110,10 +9838,10 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/floordiv"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/floordiv"
   op: "FloorDiv"
-  input: "gradients/cross_entropy/Mean_grad/Prod"
-  input: "gradients/cross_entropy/Mean_grad/Maximum"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Prod"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Maximum"
   attr {
     key: "T"
     value {
@@ -9131,9 +9859,9 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/Cast"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Cast"
   op: "Cast"
-  input: "gradients/cross_entropy/Mean_grad/floordiv"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/floordiv"
   attr {
     key: "DstT"
     value {
@@ -9157,10 +9885,10 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/Mean_grad/truediv"
+  name: "OptimizeLoss/gradients/cross_entropy/Mean_grad/truediv"
   op: "RealDiv"
-  input: "gradients/cross_entropy/Mean_grad/Tile"
-  input: "gradients/cross_entropy/Mean_grad/Cast"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Tile"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/Cast"
   attr {
     key: "T"
     value {
@@ -9181,7 +9909,7 @@ node {
   }
 }
 node {
-  name: "gradients/zeros_like"
+  name: "OptimizeLoss/gradients/zeros_like"
   op: "ZerosLike"
   input: "cross_entropy/cross_entropy_per_example/cross_entropy_per_example:1"
   attr {
@@ -9207,7 +9935,7 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/PreventGradient"
+  name: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/PreventGradient"
   op: "PreventGradient"
   input: "cross_entropy/cross_entropy_per_example/cross_entropy_per_example:1"
   attr {
@@ -9239,7 +9967,7 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/ExpandDims/dim"
+  name: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/ExpandDims/dim"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -9269,10 +9997,10 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/ExpandDims"
+  name: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/ExpandDims"
   op: "ExpandDims"
-  input: "gradients/cross_entropy/Mean_grad/truediv"
-  input: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/ExpandDims/dim"
+  input: "OptimizeLoss/gradients/cross_entropy/Mean_grad/truediv"
+  input: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/ExpandDims/dim"
   attr {
     key: "T"
     value {
@@ -9302,10 +10030,10 @@ node {
   }
 }
 node {
-  name: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
+  name: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
   op: "Mul"
-  input: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/ExpandDims"
-  input: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/PreventGradient"
+  input: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/ExpandDims"
+  input: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/PreventGradient"
   attr {
     key: "T"
     value {
@@ -9329,9 +10057,9 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
+  name: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
   op: "BiasAddGrad"
-  input: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
+  input: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
   attr {
     key: "T"
     value {
@@ -9358,16 +10086,16 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc3/BiasAdd_grad/tuple/group_deps"
+  name: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
-  input: "^gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
+  input: "^OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
+  input: "^OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
 }
 node {
-  name: "gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
-  input: "^gradients/Model/fc3/BiasAdd_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
+  input: "^OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -9378,7 +10106,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
+        s: "loc:@OptimizeLoss/gradients/cross_entropy/cross_entropy_per_example/cross_entropy_per_example_grad/mul"
       }
     }
   }
@@ -9399,10 +10127,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
-  input: "^gradients/Model/fc3/BiasAdd_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
+  input: "^OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -9413,7 +10141,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
       }
     }
   }
@@ -9431,9 +10159,9 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc3/MatMul_grad/MatMul"
+  name: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul"
   op: "MatMul"
-  input: "gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency"
+  input: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency"
   input: "fc3/weights/read"
   attr {
     key: "T"
@@ -9470,10 +10198,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc3/MatMul_grad/MatMul_1"
+  name: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul_1"
   op: "MatMul"
-  input: "Model/dropout/dropout_2/mul"
-  input: "gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency"
+  input: "Model/dropout2/dropout/mul"
+  input: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency"
   attr {
     key: "T"
     value {
@@ -9509,16 +10237,16 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc3/MatMul_grad/tuple/group_deps"
+  name: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/Model/fc3/MatMul_grad/MatMul"
-  input: "^gradients/Model/fc3/MatMul_grad/MatMul_1"
+  input: "^OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul"
+  input: "^OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul_1"
 }
 node {
-  name: "gradients/Model/fc3/MatMul_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/Model/fc3/MatMul_grad/MatMul"
-  input: "^gradients/Model/fc3/MatMul_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul"
+  input: "^OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -9529,7 +10257,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc3/MatMul_grad/MatMul"
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul"
       }
     }
   }
@@ -9550,10 +10278,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc3/MatMul_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/Model/fc3/MatMul_grad/MatMul_1"
-  input: "^gradients/Model/fc3/MatMul_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul_1"
+  input: "^OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -9564,7 +10292,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc3/MatMul_grad/MatMul_1"
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul_1"
       }
     }
   }
@@ -9585,9 +10313,9 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/Shape"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Shape"
   op: "Shape"
-  input: "Model/dropout/dropout_2/div"
+  input: "Model/dropout2/dropout/div"
   attr {
     key: "T"
     value {
@@ -9614,9 +10342,9 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/Shape_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Shape_1"
   op: "Shape"
-  input: "Model/dropout/dropout_2/Floor"
+  input: "Model/dropout2/dropout/Floor"
   attr {
     key: "T"
     value {
@@ -9643,10 +10371,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/BroadcastGradientArgs"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/BroadcastGradientArgs"
   op: "BroadcastGradientArgs"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/Shape"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/Shape_1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Shape"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Shape_1"
   attr {
     key: "T"
     value {
@@ -9672,10 +10400,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/mul"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/mul"
   op: "Mul"
-  input: "gradients/Model/fc3/MatMul_grad/tuple/control_dependency"
-  input: "Model/dropout/dropout_2/Floor"
+  input: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/control_dependency"
+  input: "Model/dropout2/dropout/Floor"
   attr {
     key: "T"
     value {
@@ -9699,10 +10427,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/Sum"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Sum"
   op: "Sum"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/mul"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/BroadcastGradientArgs"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/mul"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/BroadcastGradientArgs"
   attr {
     key: "T"
     value {
@@ -9733,10 +10461,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/Reshape"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Reshape"
   op: "Reshape"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/Sum"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/Shape"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Sum"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Shape"
   attr {
     key: "T"
     value {
@@ -9766,10 +10494,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/mul_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/mul_1"
   op: "Mul"
-  input: "Model/dropout/dropout_2/div"
-  input: "gradients/Model/fc3/MatMul_grad/tuple/control_dependency"
+  input: "Model/dropout2/dropout/div"
+  input: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/control_dependency"
   attr {
     key: "T"
     value {
@@ -9793,10 +10521,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/Sum_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Sum_1"
   op: "Sum"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/mul_1"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/BroadcastGradientArgs:1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/mul_1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/BroadcastGradientArgs:1"
   attr {
     key: "T"
     value {
@@ -9827,10 +10555,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/Reshape_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Reshape_1"
   op: "Reshape"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/Sum_1"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/Shape_1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Sum_1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Shape_1"
   attr {
     key: "T"
     value {
@@ -9860,16 +10588,16 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/tuple/group_deps"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/Model/dropout/dropout_2/mul_grad/Reshape"
-  input: "^gradients/Model/dropout/dropout_2/mul_grad/Reshape_1"
+  input: "^OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Reshape"
+  input: "^OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Reshape_1"
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/Reshape"
-  input: "^gradients/Model/dropout/dropout_2/mul_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Reshape"
+  input: "^OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -9880,7 +10608,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/dropout/dropout_2/mul_grad/Reshape"
+        s: "loc:@OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Reshape"
       }
     }
   }
@@ -9901,10 +10629,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/mul_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/Reshape_1"
-  input: "^gradients/Model/dropout/dropout_2/mul_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Reshape_1"
+  input: "^OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -9915,7 +10643,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/dropout/dropout_2/mul_grad/Reshape_1"
+        s: "loc:@OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/Reshape_1"
       }
     }
   }
@@ -9936,7 +10664,7 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/Shape"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Shape"
   op: "Shape"
   input: "Model/fc2/Relu"
   attr {
@@ -9965,7 +10693,7 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/Shape_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Shape_1"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -9998,10 +10726,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/BroadcastGradientArgs"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/BroadcastGradientArgs"
   op: "BroadcastGradientArgs"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Shape"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Shape_1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Shape"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Shape_1"
   attr {
     key: "T"
     value {
@@ -10027,10 +10755,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/RealDiv"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/RealDiv"
   op: "RealDiv"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/tuple/control_dependency"
-  input: "Model/dropout/dropout_2/keep_prob"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/tuple/control_dependency"
+  input: "Model/dropout2/dropout/keep_prob"
   attr {
     key: "T"
     value {
@@ -10054,10 +10782,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/Sum"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Sum"
   op: "Sum"
-  input: "gradients/Model/dropout/dropout_2/div_grad/RealDiv"
-  input: "gradients/Model/dropout/dropout_2/div_grad/BroadcastGradientArgs"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/RealDiv"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/BroadcastGradientArgs"
   attr {
     key: "T"
     value {
@@ -10088,10 +10816,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/Reshape"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Reshape"
   op: "Reshape"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Sum"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Shape"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Sum"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Shape"
   attr {
     key: "T"
     value {
@@ -10121,7 +10849,7 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/Neg"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Neg"
   op: "Neg"
   input: "Model/fc2/Relu"
   attr {
@@ -10147,10 +10875,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/RealDiv_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/RealDiv_1"
   op: "RealDiv"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Neg"
-  input: "Model/dropout/dropout_2/keep_prob"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Neg"
+  input: "Model/dropout2/dropout/keep_prob"
   attr {
     key: "T"
     value {
@@ -10174,10 +10902,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/RealDiv_2"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/RealDiv_2"
   op: "RealDiv"
-  input: "gradients/Model/dropout/dropout_2/div_grad/RealDiv_1"
-  input: "Model/dropout/dropout_2/keep_prob"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/RealDiv_1"
+  input: "Model/dropout2/dropout/keep_prob"
   attr {
     key: "T"
     value {
@@ -10201,10 +10929,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/mul"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/mul"
   op: "Mul"
-  input: "gradients/Model/dropout/dropout_2/mul_grad/tuple/control_dependency"
-  input: "gradients/Model/dropout/dropout_2/div_grad/RealDiv_2"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/mul_grad/tuple/control_dependency"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/RealDiv_2"
   attr {
     key: "T"
     value {
@@ -10228,10 +10956,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/Sum_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Sum_1"
   op: "Sum"
-  input: "gradients/Model/dropout/dropout_2/div_grad/mul"
-  input: "gradients/Model/dropout/dropout_2/div_grad/BroadcastGradientArgs:1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/mul"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/BroadcastGradientArgs:1"
   attr {
     key: "T"
     value {
@@ -10262,10 +10990,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/Reshape_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Reshape_1"
   op: "Reshape"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Sum_1"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Shape_1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Sum_1"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Shape_1"
   attr {
     key: "T"
     value {
@@ -10289,16 +11017,16 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/tuple/group_deps"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/Model/dropout/dropout_2/div_grad/Reshape"
-  input: "^gradients/Model/dropout/dropout_2/div_grad/Reshape_1"
+  input: "^OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Reshape"
+  input: "^OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Reshape_1"
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Reshape"
-  input: "^gradients/Model/dropout/dropout_2/div_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Reshape"
+  input: "^OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10309,7 +11037,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/dropout/dropout_2/div_grad/Reshape"
+        s: "loc:@OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Reshape"
       }
     }
   }
@@ -10330,10 +11058,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/dropout/dropout_2/div_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/Model/dropout/dropout_2/div_grad/Reshape_1"
-  input: "^gradients/Model/dropout/dropout_2/div_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Reshape_1"
+  input: "^OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10344,7 +11072,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/dropout/dropout_2/div_grad/Reshape_1"
+        s: "loc:@OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/Reshape_1"
       }
     }
   }
@@ -10359,9 +11087,9 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc2/Relu_grad/ReluGrad"
+  name: "OptimizeLoss/gradients/Model/fc2/Relu_grad/ReluGrad"
   op: "ReluGrad"
-  input: "gradients/Model/dropout/dropout_2/div_grad/tuple/control_dependency"
+  input: "OptimizeLoss/gradients/Model/dropout2/dropout/div_grad/tuple/control_dependency"
   input: "Model/fc2/Relu"
   attr {
     key: "T"
@@ -10386,9 +11114,9 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
+  name: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
   op: "BiasAddGrad"
-  input: "gradients/Model/fc2/Relu_grad/ReluGrad"
+  input: "OptimizeLoss/gradients/Model/fc2/Relu_grad/ReluGrad"
   attr {
     key: "T"
     value {
@@ -10415,16 +11143,16 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc2/BiasAdd_grad/tuple/group_deps"
+  name: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/Model/fc2/Relu_grad/ReluGrad"
-  input: "^gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
+  input: "^OptimizeLoss/gradients/Model/fc2/Relu_grad/ReluGrad"
+  input: "^OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
 }
 node {
-  name: "gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/Model/fc2/Relu_grad/ReluGrad"
-  input: "^gradients/Model/fc2/BiasAdd_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc2/Relu_grad/ReluGrad"
+  input: "^OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10435,7 +11163,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc2/Relu_grad/ReluGrad"
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/Relu_grad/ReluGrad"
       }
     }
   }
@@ -10456,10 +11184,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
-  input: "^gradients/Model/fc2/BiasAdd_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
+  input: "^OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10470,7 +11198,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
       }
     }
   }
@@ -10488,9 +11216,9 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc2/MatMul_grad/MatMul"
+  name: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul"
   op: "MatMul"
-  input: "gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency"
+  input: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency"
   input: "fc2/weights/read"
   attr {
     key: "T"
@@ -10527,10 +11255,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc2/MatMul_grad/MatMul_1"
+  name: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul_1"
   op: "MatMul"
-  input: "Model/fc1/Relu"
-  input: "gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency"
+  input: "Model/dropout1/dropout/mul"
+  input: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency"
   attr {
     key: "T"
     value {
@@ -10566,16 +11294,16 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc2/MatMul_grad/tuple/group_deps"
+  name: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/Model/fc2/MatMul_grad/MatMul"
-  input: "^gradients/Model/fc2/MatMul_grad/MatMul_1"
+  input: "^OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul"
+  input: "^OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul_1"
 }
 node {
-  name: "gradients/Model/fc2/MatMul_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/Model/fc2/MatMul_grad/MatMul"
-  input: "^gradients/Model/fc2/MatMul_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul"
+  input: "^OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10586,7 +11314,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc2/MatMul_grad/MatMul"
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul"
       }
     }
   }
@@ -10607,10 +11335,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc2/MatMul_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/Model/fc2/MatMul_grad/MatMul_1"
-  input: "^gradients/Model/fc2/MatMul_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul_1"
+  input: "^OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10621,7 +11349,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc2/MatMul_grad/MatMul_1"
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul_1"
       }
     }
   }
@@ -10642,9 +11370,544 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc1/Relu_grad/ReluGrad"
-  op: "ReluGrad"
-  input: "gradients/Model/fc2/MatMul_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Shape"
+  op: "Shape"
+  input: "Model/dropout1/dropout/div"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Shape_1"
+  op: "Shape"
+  input: "Model/dropout1/dropout/Floor"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/BroadcastGradientArgs"
+  op: "BroadcastGradientArgs"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Shape"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Shape_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/mul"
+  op: "Mul"
+  input: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/control_dependency"
+  input: "Model/dropout1/dropout/Floor"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Sum"
+  op: "Sum"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/mul"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/BroadcastGradientArgs"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          unknown_rank: true
+        }
+      }
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Reshape"
+  op: "Reshape"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Sum"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/mul_1"
+  op: "Mul"
+  input: "Model/dropout1/dropout/div"
+  input: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/control_dependency"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Sum_1"
+  op: "Sum"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/mul_1"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/BroadcastGradientArgs:1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          unknown_rank: true
+        }
+      }
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Reshape_1"
+  op: "Reshape"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Sum_1"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Shape_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Reshape"
+  input: "^OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Reshape_1"
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Reshape"
+  input: "^OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Reshape"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Reshape_1"
+  input: "^OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/Reshape_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Shape"
+  op: "Shape"
+  input: "Model/fc1/Relu"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 2
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "out_type"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Shape_1"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+          dim {
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/BroadcastGradientArgs"
+  op: "BroadcastGradientArgs"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Shape"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Shape_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+        }
+        shape {
+          dim {
+            size: -1
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/RealDiv"
+  op: "RealDiv"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/tuple/control_dependency"
+  input: "Model/dropout1/dropout/keep_prob"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Sum"
+  op: "Sum"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/RealDiv"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/BroadcastGradientArgs"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          unknown_rank: true
+        }
+      }
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Reshape"
+  op: "Reshape"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Sum"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Shape"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Neg"
+  op: "Neg"
   input: "Model/fc1/Relu"
   attr {
     key: "T"
@@ -10669,9 +11932,248 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/RealDiv_1"
+  op: "RealDiv"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Neg"
+  input: "Model/dropout1/dropout/keep_prob"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/RealDiv_2"
+  op: "RealDiv"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/RealDiv_1"
+  input: "Model/dropout1/dropout/keep_prob"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/mul"
+  op: "Mul"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/mul_grad/tuple/control_dependency"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/RealDiv_2"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Sum_1"
+  op: "Sum"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/mul"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/BroadcastGradientArgs:1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tidx"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          unknown_rank: true
+        }
+      }
+    }
+  }
+  attr {
+    key: "keep_dims"
+    value {
+      b: false
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Reshape_1"
+  op: "Reshape"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Sum_1"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Shape_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "Tshape"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/tuple/group_deps"
+  op: "NoOp"
+  input: "^OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Reshape"
+  input: "^OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Reshape_1"
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/tuple/control_dependency"
+  op: "Identity"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Reshape"
+  input: "^OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Reshape"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/tuple/control_dependency_1"
+  op: "Identity"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Reshape_1"
+  input: "^OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/tuple/group_deps"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/Reshape_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/fc1/Relu_grad/ReluGrad"
+  op: "ReluGrad"
+  input: "OptimizeLoss/gradients/Model/dropout1/dropout/div_grad/tuple/control_dependency"
+  input: "Model/fc1/Relu"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
   op: "BiasAddGrad"
-  input: "gradients/Model/fc1/Relu_grad/ReluGrad"
+  input: "OptimizeLoss/gradients/Model/fc1/Relu_grad/ReluGrad"
   attr {
     key: "T"
     value {
@@ -10698,16 +12200,16 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc1/BiasAdd_grad/tuple/group_deps"
+  name: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/Model/fc1/Relu_grad/ReluGrad"
-  input: "^gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
+  input: "^OptimizeLoss/gradients/Model/fc1/Relu_grad/ReluGrad"
+  input: "^OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
 }
 node {
-  name: "gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/Model/fc1/Relu_grad/ReluGrad"
-  input: "^gradients/Model/fc1/BiasAdd_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc1/Relu_grad/ReluGrad"
+  input: "^OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10718,7 +12220,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc1/Relu_grad/ReluGrad"
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/Relu_grad/ReluGrad"
       }
     }
   }
@@ -10739,10 +12241,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
-  input: "^gradients/Model/fc1/BiasAdd_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
+  input: "^OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10753,7 +12255,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
       }
     }
   }
@@ -10771,9 +12273,9 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc1/MatMul_grad/MatMul"
+  name: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul"
   op: "MatMul"
-  input: "gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency"
+  input: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency"
   input: "fc1/weights/read"
   attr {
     key: "T"
@@ -10810,10 +12312,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc1/MatMul_grad/MatMul_1"
+  name: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul_1"
   op: "MatMul"
   input: "batch"
-  input: "gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency"
+  input: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency"
   attr {
     key: "T"
     value {
@@ -10849,16 +12351,16 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc1/MatMul_grad/tuple/group_deps"
+  name: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/tuple/group_deps"
   op: "NoOp"
-  input: "^gradients/Model/fc1/MatMul_grad/MatMul"
-  input: "^gradients/Model/fc1/MatMul_grad/MatMul_1"
+  input: "^OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul"
+  input: "^OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul_1"
 }
 node {
-  name: "gradients/Model/fc1/MatMul_grad/tuple/control_dependency"
+  name: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/tuple/control_dependency"
   op: "Identity"
-  input: "gradients/Model/fc1/MatMul_grad/MatMul"
-  input: "^gradients/Model/fc1/MatMul_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul"
+  input: "^OptimizeLoss/gradients/Model/fc1/MatMul_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10869,7 +12371,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc1/MatMul_grad/MatMul"
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul"
       }
     }
   }
@@ -10890,10 +12392,10 @@ node {
   }
 }
 node {
-  name: "gradients/Model/fc1/MatMul_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/tuple/control_dependency_1"
   op: "Identity"
-  input: "gradients/Model/fc1/MatMul_grad/MatMul_1"
-  input: "^gradients/Model/fc1/MatMul_grad/tuple/group_deps"
+  input: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul_1"
+  input: "^OptimizeLoss/gradients/Model/fc1/MatMul_grad/tuple/group_deps"
   attr {
     key: "T"
     value {
@@ -10904,7 +12406,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@gradients/Model/fc1/MatMul_grad/MatMul_1"
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul_1"
       }
     }
   }
@@ -10925,10 +12427,188 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm/mul"
-  op: "Mul"
-  input: "gradients/Model/fc1/MatMul_grad/tuple/control_dependency_1"
-  input: "gradients/Model/fc1/MatMul_grad/tuple/control_dependency_1"
+  name: "OptimizeLoss/global_norm/L2Loss"
+  op: "L2Loss"
+  input: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/global_norm/L2Loss_1"
+  op: "L2Loss"
+  input: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/global_norm/L2Loss_2"
+  op: "L2Loss"
+  input: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/global_norm/L2Loss_3"
+  op: "L2Loss"
+  input: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/global_norm/L2Loss_4"
+  op: "L2Loss"
+  input: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/global_norm/L2Loss_5"
+  op: "L2Loss"
+  input: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency_1"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/global_norm/stack"
+  op: "Pack"
+  input: "OptimizeLoss/global_norm/L2Loss"
+  input: "OptimizeLoss/global_norm/L2Loss_1"
+  input: "OptimizeLoss/global_norm/L2Loss_2"
+  input: "OptimizeLoss/global_norm/L2Loss_3"
+  input: "OptimizeLoss/global_norm/L2Loss_4"
+  input: "OptimizeLoss/global_norm/L2Loss_5"
+  attr {
+    key: "N"
+    value {
+      i: 6
+    }
+  }
   attr {
     key: "T"
     value {
@@ -10941,361 +12621,21 @@ node {
       list {
         shape {
           dim {
-            size: 120
-          }
-          dim {
-            size: 40
+            size: 6
           }
         }
       }
+    }
+  }
+  attr {
+    key: "axis"
+    value {
+      i: 0
     }
   }
 }
 node {
-  name: "clip_grads/clip_by_norm/Const"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 2
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\000\000\000\000\001\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/Sum"
-  op: "Sum"
-  input: "clip_grads/clip_by_norm/mul"
-  input: "clip_grads/clip_by_norm/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/Rsqrt"
-  op: "Rsqrt"
-  input: "clip_grads/clip_by_norm/Sum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/mul_1/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/mul_1"
-  op: "Mul"
-  input: "gradients/Model/fc1/MatMul_grad/tuple/control_dependency_1"
-  input: "clip_grads/clip_by_norm/mul_1/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 120
-          }
-          dim {
-            size: 40
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/Const_1"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 1.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/truediv/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/truediv"
-  op: "RealDiv"
-  input: "clip_grads/clip_by_norm/Const_1"
-  input: "clip_grads/clip_by_norm/truediv/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/Minimum"
-  op: "Minimum"
-  input: "clip_grads/clip_by_norm/Rsqrt"
-  input: "clip_grads/clip_by_norm/truediv"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm/mul_2"
-  op: "Mul"
-  input: "clip_grads/clip_by_norm/mul_1"
-  input: "clip_grads/clip_by_norm/Minimum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 120
-          }
-          dim {
-            size: 40
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm"
-  op: "Identity"
-  input: "clip_grads/clip_by_norm/mul_2"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 120
-          }
-          dim {
-            size: 40
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_1/mul"
-  op: "Mul"
-  input: "gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency_1"
-  input: "gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 40
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_1/Const"
+  name: "OptimizeLoss/global_norm/Const"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -11331,10 +12671,10 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_1/Sum"
+  name: "OptimizeLoss/global_norm/Sum"
   op: "Sum"
-  input: "clip_grads/clip_by_norm_1/mul"
-  input: "clip_grads/clip_by_norm_1/Const"
+  input: "OptimizeLoss/global_norm/stack"
+  input: "OptimizeLoss/global_norm/Const"
   attr {
     key: "T"
     value {
@@ -11352,9 +12692,6 @@ node {
     value {
       list {
         shape {
-          dim {
-            size: 1
-          }
         }
       }
     }
@@ -11362,35 +12699,12 @@ node {
   attr {
     key: "keep_dims"
     value {
-      b: true
+      b: false
     }
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_1/Rsqrt"
-  op: "Rsqrt"
-  input: "clip_grads/clip_by_norm_1/Sum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_1/mul_1/y"
+  name: "OptimizeLoss/global_norm/Const_1"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -11414,16 +12728,16 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 5.0
+        float_val: 2.0
       }
     }
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_1/mul_1"
+  name: "OptimizeLoss/global_norm/mul"
   op: "Mul"
-  input: "gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency_1"
-  input: "clip_grads/clip_by_norm_1/mul_1/y"
+  input: "OptimizeLoss/global_norm/Sum"
+  input: "OptimizeLoss/global_norm/Const_1"
   attr {
     key: "T"
     value {
@@ -11435,16 +12749,33 @@ node {
     value {
       list {
         shape {
-          dim {
-            size: 40
-          }
         }
       }
     }
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_1/Const_1"
+  name: "OptimizeLoss/global_norm/global_norm"
+  op: "Sqrt"
+  input: "OptimizeLoss/global_norm/mul"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/clip_by_global_norm/truediv/x"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -11474,40 +12805,10 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_1/truediv/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_1/truediv"
+  name: "OptimizeLoss/clip_by_global_norm/truediv"
   op: "RealDiv"
-  input: "clip_grads/clip_by_norm_1/Const_1"
-  input: "clip_grads/clip_by_norm_1/truediv/y"
+  input: "OptimizeLoss/clip_by_global_norm/truediv/x"
+  input: "OptimizeLoss/global_norm/global_norm"
   attr {
     key: "T"
     value {
@@ -11525,263 +12826,7 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_1/Minimum"
-  op: "Minimum"
-  input: "clip_grads/clip_by_norm_1/Rsqrt"
-  input: "clip_grads/clip_by_norm_1/truediv"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_1/mul_2"
-  op: "Mul"
-  input: "clip_grads/clip_by_norm_1/mul_1"
-  input: "clip_grads/clip_by_norm_1/Minimum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 40
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_1"
-  op: "Identity"
-  input: "clip_grads/clip_by_norm_1/mul_2"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 40
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_2/mul"
-  op: "Mul"
-  input: "gradients/Model/fc2/MatMul_grad/tuple/control_dependency_1"
-  input: "gradients/Model/fc2/MatMul_grad/tuple/control_dependency_1"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 40
-          }
-          dim {
-            size: 20
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_2/Const"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 2
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\000\000\000\000\001\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_2/Sum"
-  op: "Sum"
-  input: "clip_grads/clip_by_norm_2/mul"
-  input: "clip_grads/clip_by_norm_2/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_2/Rsqrt"
-  op: "Rsqrt"
-  input: "clip_grads/clip_by_norm_2/Sum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_2/mul_1/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_2/mul_1"
-  op: "Mul"
-  input: "gradients/Model/fc2/MatMul_grad/tuple/control_dependency_1"
-  input: "clip_grads/clip_by_norm_2/mul_1/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 40
-          }
-          dim {
-            size: 20
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_2/Const_1"
+  name: "OptimizeLoss/clip_by_global_norm/Const"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -11811,7 +12856,7 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_2/truediv/y"
+  name: "OptimizeLoss/clip_by_global_norm/truediv_1/y"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -11841,10 +12886,10 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_2/truediv"
+  name: "OptimizeLoss/clip_by_global_norm/truediv_1"
   op: "RealDiv"
-  input: "clip_grads/clip_by_norm_2/Const_1"
-  input: "clip_grads/clip_by_norm_2/truediv/y"
+  input: "OptimizeLoss/clip_by_global_norm/Const"
+  input: "OptimizeLoss/clip_by_global_norm/truediv_1/y"
   attr {
     key: "T"
     value {
@@ -11862,10 +12907,10 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_2/Minimum"
+  name: "OptimizeLoss/clip_by_global_norm/Minimum"
   op: "Minimum"
-  input: "clip_grads/clip_by_norm_2/Rsqrt"
-  input: "clip_grads/clip_by_norm_2/truediv"
+  input: "OptimizeLoss/clip_by_global_norm/truediv"
+  input: "OptimizeLoss/clip_by_global_norm/truediv_1"
   attr {
     key: "T"
     value {
@@ -11877,11 +12922,91 @@ node {
     value {
       list {
         shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/clip_by_global_norm/mul/x"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_FLOAT
+        tensor_shape {
+        }
+        float_val: 5.0
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/clip_by_global_norm/mul"
+  op: "Mul"
+  input: "OptimizeLoss/clip_by_global_norm/mul/x"
+  input: "OptimizeLoss/clip_by_global_norm/Minimum"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/clip_by_global_norm/mul_1"
+  op: "Mul"
+  input: "OptimizeLoss/gradients/Model/fc1/MatMul_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/clip_by_global_norm/mul"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
           dim {
-            size: 1
+            size: 120
           }
           dim {
-            size: 1
+            size: 40
           }
         }
       }
@@ -11889,14 +13014,119 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_2/mul_2"
-  op: "Mul"
-  input: "clip_grads/clip_by_norm_2/mul_1"
-  input: "clip_grads/clip_by_norm_2/Minimum"
+  name: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_0"
+  op: "Identity"
+  input: "OptimizeLoss/clip_by_global_norm/mul_1"
   attr {
     key: "T"
     value {
       type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/MatMul_grad/MatMul_1"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 120
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/clip_by_global_norm/mul_2"
+  op: "Mul"
+  input: "OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/clip_by_global_norm/mul"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_1"
+  op: "Identity"
+  input: "OptimizeLoss/clip_by_global_norm/mul_2"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc1/BiasAdd_grad/BiasAddGrad"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/clip_by_global_norm/mul_3"
+  op: "Mul"
+  input: "OptimizeLoss/gradients/Model/fc2/MatMul_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/clip_by_global_norm/mul"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul_1"
+      }
     }
   }
   attr {
@@ -11916,13 +13146,21 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_2"
+  name: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_2"
   op: "Identity"
-  input: "clip_grads/clip_by_norm_2/mul_2"
+  input: "OptimizeLoss/clip_by_global_norm/mul_3"
   attr {
     key: "T"
     value {
       type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/MatMul_grad/MatMul_1"
+      }
     }
   }
   attr {
@@ -11942,14 +13180,22 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_3/mul"
+  name: "OptimizeLoss/clip_by_global_norm/mul_4"
   op: "Mul"
-  input: "gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency_1"
-  input: "gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/clip_by_global_norm/mul"
   attr {
     key: "T"
     value {
       type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
+      }
     }
   }
   attr {
@@ -11966,291 +13212,21 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_3/Const"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/Sum"
-  op: "Sum"
-  input: "clip_grads/clip_by_norm_3/mul"
-  input: "clip_grads/clip_by_norm_3/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/Rsqrt"
-  op: "Rsqrt"
-  input: "clip_grads/clip_by_norm_3/Sum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/mul_1/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/mul_1"
-  op: "Mul"
-  input: "gradients/Model/fc2/BiasAdd_grad/tuple/control_dependency_1"
-  input: "clip_grads/clip_by_norm_3/mul_1/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 20
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/Const_1"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 1.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/truediv/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/truediv"
-  op: "RealDiv"
-  input: "clip_grads/clip_by_norm_3/Const_1"
-  input: "clip_grads/clip_by_norm_3/truediv/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/Minimum"
-  op: "Minimum"
-  input: "clip_grads/clip_by_norm_3/Rsqrt"
-  input: "clip_grads/clip_by_norm_3/truediv"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3/mul_2"
-  op: "Mul"
-  input: "clip_grads/clip_by_norm_3/mul_1"
-  input: "clip_grads/clip_by_norm_3/Minimum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 20
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_3"
+  name: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_3"
   op: "Identity"
-  input: "clip_grads/clip_by_norm_3/mul_2"
+  input: "OptimizeLoss/clip_by_global_norm/mul_4"
   attr {
     key: "T"
     value {
       type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc2/BiasAdd_grad/BiasAddGrad"
+      }
     }
   }
   attr {
@@ -12267,14 +13243,22 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_4/mul"
+  name: "OptimizeLoss/clip_by_global_norm/mul_5"
   op: "Mul"
-  input: "gradients/Model/fc3/MatMul_grad/tuple/control_dependency_1"
-  input: "gradients/Model/fc3/MatMul_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/gradients/Model/fc3/MatMul_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/clip_by_global_norm/mul"
   attr {
     key: "T"
     value {
       type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul_1"
+      }
     }
   }
   attr {
@@ -12294,306 +13278,21 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_4/Const"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 2
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 2
-          }
-        }
-        tensor_content: "\000\000\000\000\001\000\000\000"
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/Sum"
-  op: "Sum"
-  input: "clip_grads/clip_by_norm_4/mul"
-  input: "clip_grads/clip_by_norm_4/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/Rsqrt"
-  op: "Rsqrt"
-  input: "clip_grads/clip_by_norm_4/Sum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/mul_1/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/mul_1"
-  op: "Mul"
-  input: "gradients/Model/fc3/MatMul_grad/tuple/control_dependency_1"
-  input: "clip_grads/clip_by_norm_4/mul_1/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 20
-          }
-          dim {
-            size: 4
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/Const_1"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 1.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/truediv/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/truediv"
-  op: "RealDiv"
-  input: "clip_grads/clip_by_norm_4/Const_1"
-  input: "clip_grads/clip_by_norm_4/truediv/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/Minimum"
-  op: "Minimum"
-  input: "clip_grads/clip_by_norm_4/Rsqrt"
-  input: "clip_grads/clip_by_norm_4/truediv"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4/mul_2"
-  op: "Mul"
-  input: "clip_grads/clip_by_norm_4/mul_1"
-  input: "clip_grads/clip_by_norm_4/Minimum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 20
-          }
-          dim {
-            size: 4
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_4"
+  name: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_4"
   op: "Identity"
-  input: "clip_grads/clip_by_norm_4/mul_2"
+  input: "OptimizeLoss/clip_by_global_norm/mul_5"
   attr {
     key: "T"
     value {
       type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/MatMul_grad/MatMul_1"
+      }
     }
   }
   attr {
@@ -12613,14 +13312,22 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_5/mul"
+  name: "OptimizeLoss/clip_by_global_norm/mul_6"
   op: "Mul"
-  input: "gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency_1"
-  input: "gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency_1"
+  input: "OptimizeLoss/clip_by_global_norm/mul"
   attr {
     key: "T"
     value {
       type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
+      }
     }
   }
   attr {
@@ -12637,291 +13344,21 @@ node {
   }
 }
 node {
-  name: "clip_grads/clip_by_norm_5/Const"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_INT32
-        tensor_shape {
-          dim {
-            size: 1
-          }
-        }
-        int_val: 0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/Sum"
-  op: "Sum"
-  input: "clip_grads/clip_by_norm_5/mul"
-  input: "clip_grads/clip_by_norm_5/Const"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "Tidx"
-    value {
-      type: DT_INT32
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-  attr {
-    key: "keep_dims"
-    value {
-      b: true
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/Rsqrt"
-  op: "Rsqrt"
-  input: "clip_grads/clip_by_norm_5/Sum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/mul_1/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/mul_1"
-  op: "Mul"
-  input: "gradients/Model/fc3/BiasAdd_grad/tuple/control_dependency_1"
-  input: "clip_grads/clip_by_norm_5/mul_1/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 4
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/Const_1"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 1.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/truediv/y"
-  op: "Const"
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "dtype"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "value"
-    value {
-      tensor {
-        dtype: DT_FLOAT
-        tensor_shape {
-        }
-        float_val: 5.0
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/truediv"
-  op: "RealDiv"
-  input: "clip_grads/clip_by_norm_5/Const_1"
-  input: "clip_grads/clip_by_norm_5/truediv/y"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/Minimum"
-  op: "Minimum"
-  input: "clip_grads/clip_by_norm_5/Rsqrt"
-  input: "clip_grads/clip_by_norm_5/truediv"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 1
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5/mul_2"
-  op: "Mul"
-  input: "clip_grads/clip_by_norm_5/mul_1"
-  input: "clip_grads/clip_by_norm_5/Minimum"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-          dim {
-            size: 4
-          }
-        }
-      }
-    }
-  }
-}
-node {
-  name: "clip_grads/clip_by_norm_5"
+  name: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_5"
   op: "Identity"
-  input: "clip_grads/clip_by_norm_5/mul_2"
+  input: "OptimizeLoss/clip_by_global_norm/mul_6"
   attr {
     key: "T"
     value {
       type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@OptimizeLoss/gradients/Model/fc3/BiasAdd_grad/BiasAddGrad"
+      }
     }
   }
   attr {
@@ -12938,7 +13375,7 @@ node {
   }
 }
 node {
-  name: "GradientDescent/learning_rate"
+  name: "OptimizeLoss/loss/tags"
   op: "Const"
   attr {
     key: "_output_shapes"
@@ -12952,27 +13389,48 @@ node {
   attr {
     key: "dtype"
     value {
-      type: DT_FLOAT
+      type: DT_STRING
     }
   }
   attr {
     key: "value"
     value {
       tensor {
-        dtype: DT_FLOAT
+        dtype: DT_STRING
         tensor_shape {
         }
-        float_val: 0.00999999977648
+        string_val: "OptimizeLoss/loss"
       }
     }
   }
 }
 node {
-  name: "GradientDescent/update_fc1/weights/ApplyGradientDescent"
+  name: "OptimizeLoss/loss"
+  op: "ScalarSummary"
+  input: "OptimizeLoss/loss/tags"
+  input: "total_loss"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+}
+node {
+  name: "OptimizeLoss/train/update_fc1/weights/ApplyGradientDescent"
   op: "ApplyGradientDescent"
   input: "fc1/weights"
-  input: "GradientDescent/learning_rate"
-  input: "clip_grads/clip_by_norm"
+  input: "OptimizeLoss/ExponentialDecay"
+  input: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_0"
   attr {
     key: "T"
     value {
@@ -13010,11 +13468,11 @@ node {
   }
 }
 node {
-  name: "GradientDescent/update_fc1/biases/ApplyGradientDescent"
+  name: "OptimizeLoss/train/update_fc1/biases/ApplyGradientDescent"
   op: "ApplyGradientDescent"
   input: "fc1/biases"
-  input: "GradientDescent/learning_rate"
-  input: "clip_grads/clip_by_norm_1"
+  input: "OptimizeLoss/ExponentialDecay"
+  input: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_1"
   attr {
     key: "T"
     value {
@@ -13049,11 +13507,11 @@ node {
   }
 }
 node {
-  name: "GradientDescent/update_fc2/weights/ApplyGradientDescent"
+  name: "OptimizeLoss/train/update_fc2/weights/ApplyGradientDescent"
   op: "ApplyGradientDescent"
   input: "fc2/weights"
-  input: "GradientDescent/learning_rate"
-  input: "clip_grads/clip_by_norm_2"
+  input: "OptimizeLoss/ExponentialDecay"
+  input: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_2"
   attr {
     key: "T"
     value {
@@ -13091,11 +13549,11 @@ node {
   }
 }
 node {
-  name: "GradientDescent/update_fc2/biases/ApplyGradientDescent"
+  name: "OptimizeLoss/train/update_fc2/biases/ApplyGradientDescent"
   op: "ApplyGradientDescent"
   input: "fc2/biases"
-  input: "GradientDescent/learning_rate"
-  input: "clip_grads/clip_by_norm_3"
+  input: "OptimizeLoss/ExponentialDecay"
+  input: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_3"
   attr {
     key: "T"
     value {
@@ -13130,11 +13588,11 @@ node {
   }
 }
 node {
-  name: "GradientDescent/update_fc3/weights/ApplyGradientDescent"
+  name: "OptimizeLoss/train/update_fc3/weights/ApplyGradientDescent"
   op: "ApplyGradientDescent"
   input: "fc3/weights"
-  input: "GradientDescent/learning_rate"
-  input: "clip_grads/clip_by_norm_4"
+  input: "OptimizeLoss/ExponentialDecay"
+  input: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_4"
   attr {
     key: "T"
     value {
@@ -13172,11 +13630,11 @@ node {
   }
 }
 node {
-  name: "GradientDescent/update_fc3/biases/ApplyGradientDescent"
+  name: "OptimizeLoss/train/update_fc3/biases/ApplyGradientDescent"
   op: "ApplyGradientDescent"
   input: "fc3/biases"
-  input: "GradientDescent/learning_rate"
-  input: "clip_grads/clip_by_norm_5"
+  input: "OptimizeLoss/ExponentialDecay"
+  input: "OptimizeLoss/clip_by_global_norm/OptimizeLoss/clip_by_global_norm/_5"
   attr {
     key: "T"
     value {
@@ -13211,19 +13669,19 @@ node {
   }
 }
 node {
-  name: "GradientDescent/update"
+  name: "OptimizeLoss/train/update"
   op: "NoOp"
-  input: "^GradientDescent/update_fc1/weights/ApplyGradientDescent"
-  input: "^GradientDescent/update_fc1/biases/ApplyGradientDescent"
-  input: "^GradientDescent/update_fc2/weights/ApplyGradientDescent"
-  input: "^GradientDescent/update_fc2/biases/ApplyGradientDescent"
-  input: "^GradientDescent/update_fc3/weights/ApplyGradientDescent"
-  input: "^GradientDescent/update_fc3/biases/ApplyGradientDescent"
+  input: "^OptimizeLoss/train/update_fc1/weights/ApplyGradientDescent"
+  input: "^OptimizeLoss/train/update_fc1/biases/ApplyGradientDescent"
+  input: "^OptimizeLoss/train/update_fc2/weights/ApplyGradientDescent"
+  input: "^OptimizeLoss/train/update_fc2/biases/ApplyGradientDescent"
+  input: "^OptimizeLoss/train/update_fc3/weights/ApplyGradientDescent"
+  input: "^OptimizeLoss/train/update_fc3/biases/ApplyGradientDescent"
 }
 node {
-  name: "GradientDescent/value"
+  name: "OptimizeLoss/train/value"
   op: "Const"
-  input: "^GradientDescent/update"
+  input: "^OptimizeLoss/train/update"
   attr {
     key: "_class"
     value {
@@ -13244,30 +13702,30 @@ node {
   attr {
     key: "dtype"
     value {
-      type: DT_INT64
+      type: DT_INT32
     }
   }
   attr {
     key: "value"
     value {
       tensor {
-        dtype: DT_INT64
+        dtype: DT_INT32
         tensor_shape {
         }
-        int64_val: 1
+        int_val: 1
       }
     }
   }
 }
 node {
-  name: "GradientDescent"
+  name: "OptimizeLoss/train"
   op: "AssignAdd"
   input: "global_step"
-  input: "GradientDescent/value"
+  input: "OptimizeLoss/train/value"
   attr {
     key: "T"
     value {
-      type: DT_INT64
+      type: DT_INT32
     }
   }
   attr {
@@ -13295,36 +13753,10 @@ node {
   }
 }
 node {
-  name: "train_op/CheckNumerics"
-  op: "CheckNumerics"
-  input: "total_loss"
-  attr {
-    key: "T"
-    value {
-      type: DT_FLOAT
-    }
-  }
-  attr {
-    key: "_output_shapes"
-    value {
-      list {
-        shape {
-        }
-      }
-    }
-  }
-  attr {
-    key: "message"
-    value {
-      s: "LossTensor is inf or nan"
-    }
-  }
-}
-node {
-  name: "train_op/control_dependency"
+  name: "OptimizeLoss/control_dependency"
   op: "Identity"
-  input: "train_op/CheckNumerics"
-  input: "^GradientDescent"
+  input: "total_loss"
+  input: "^OptimizeLoss/train"
   attr {
     key: "T"
     value {
@@ -13335,7 +13767,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@train_op/CheckNumerics"
+        s: "loc:@total_loss"
       }
     }
   }
@@ -13388,7 +13820,7 @@ node {
       list {
         shape {
           dim {
-            size: 7
+            size: 8
           }
         }
       }
@@ -13407,9 +13839,10 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 7
+            size: 8
           }
         }
+        string_val: "OptimizeLoss/learning_rate"
         string_val: "fc1/biases"
         string_val: "fc1/weights"
         string_val: "fc2/biases"
@@ -13430,7 +13863,7 @@ node {
       list {
         shape {
           dim {
-            size: 7
+            size: 8
           }
         }
       }
@@ -13449,9 +13882,10 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 7
+            size: 8
           }
         }
+        string_val: ""
         string_val: ""
         string_val: ""
         string_val: ""
@@ -13469,6 +13903,7 @@ node {
   input: "save/Const"
   input: "save/SaveV2/tensor_names"
   input: "save/SaveV2/shape_and_slices"
+  input: "OptimizeLoss/learning_rate"
   input: "fc1/biases"
   input: "fc1/weights"
   input: "fc2/biases"
@@ -13486,7 +13921,8 @@ node {
         type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
-        type: DT_INT64
+        type: DT_FLOAT
+        type: DT_INT32
       }
     }
   }
@@ -13551,7 +13987,7 @@ node {
             size: 1
           }
         }
-        string_val: "fc1/biases"
+        string_val: "OptimizeLoss/learning_rate"
       }
     }
   }
@@ -13620,7 +14056,7 @@ node {
 node {
   name: "save/Assign"
   op: "Assign"
-  input: "fc1/biases"
+  input: "OptimizeLoss/learning_rate"
   input: "save/RestoreV2"
   attr {
     key: "T"
@@ -13632,7 +14068,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@fc1/biases"
+        s: "loc:@OptimizeLoss/learning_rate"
       }
     }
   }
@@ -13641,9 +14077,6 @@ node {
     value {
       list {
         shape {
-          dim {
-            size: 40
-          }
         }
       }
     }
@@ -13692,7 +14125,7 @@ node {
             size: 1
           }
         }
-        string_val: "fc1/weights"
+        string_val: "fc1/biases"
       }
     }
   }
@@ -13761,7 +14194,7 @@ node {
 node {
   name: "save/Assign_1"
   op: "Assign"
-  input: "fc1/weights"
+  input: "fc1/biases"
   input: "save/RestoreV2_1"
   attr {
     key: "T"
@@ -13773,7 +14206,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@fc1/weights"
+        s: "loc:@fc1/biases"
       }
     }
   }
@@ -13782,9 +14215,6 @@ node {
     value {
       list {
         shape {
-          dim {
-            size: 120
-          }
           dim {
             size: 40
           }
@@ -13836,7 +14266,7 @@ node {
             size: 1
           }
         }
-        string_val: "fc2/biases"
+        string_val: "fc1/weights"
       }
     }
   }
@@ -13905,7 +14335,7 @@ node {
 node {
   name: "save/Assign_2"
   op: "Assign"
-  input: "fc2/biases"
+  input: "fc1/weights"
   input: "save/RestoreV2_2"
   attr {
     key: "T"
@@ -13917,7 +14347,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@fc2/biases"
+        s: "loc:@fc1/weights"
       }
     }
   }
@@ -13927,7 +14357,10 @@ node {
       list {
         shape {
           dim {
-            size: 20
+            size: 120
+          }
+          dim {
+            size: 40
           }
         }
       }
@@ -13977,7 +14410,7 @@ node {
             size: 1
           }
         }
-        string_val: "fc2/weights"
+        string_val: "fc2/biases"
       }
     }
   }
@@ -14046,7 +14479,7 @@ node {
 node {
   name: "save/Assign_3"
   op: "Assign"
-  input: "fc2/weights"
+  input: "fc2/biases"
   input: "save/RestoreV2_3"
   attr {
     key: "T"
@@ -14058,7 +14491,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@fc2/weights"
+        s: "loc:@fc2/biases"
       }
     }
   }
@@ -14067,9 +14500,6 @@ node {
     value {
       list {
         shape {
-          dim {
-            size: 40
-          }
           dim {
             size: 20
           }
@@ -14121,7 +14551,7 @@ node {
             size: 1
           }
         }
-        string_val: "fc3/biases"
+        string_val: "fc2/weights"
       }
     }
   }
@@ -14190,7 +14620,7 @@ node {
 node {
   name: "save/Assign_4"
   op: "Assign"
-  input: "fc3/biases"
+  input: "fc2/weights"
   input: "save/RestoreV2_4"
   attr {
     key: "T"
@@ -14202,7 +14632,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@fc3/biases"
+        s: "loc:@fc2/weights"
       }
     }
   }
@@ -14212,7 +14642,10 @@ node {
       list {
         shape {
           dim {
-            size: 4
+            size: 40
+          }
+          dim {
+            size: 20
           }
         }
       }
@@ -14262,7 +14695,7 @@ node {
             size: 1
           }
         }
-        string_val: "fc3/weights"
+        string_val: "fc3/biases"
       }
     }
   }
@@ -14331,7 +14764,7 @@ node {
 node {
   name: "save/Assign_5"
   op: "Assign"
-  input: "fc3/weights"
+  input: "fc3/biases"
   input: "save/RestoreV2_5"
   attr {
     key: "T"
@@ -14343,7 +14776,7 @@ node {
     key: "_class"
     value {
       list {
-        s: "loc:@fc3/weights"
+        s: "loc:@fc3/biases"
       }
     }
   }
@@ -14352,9 +14785,6 @@ node {
     value {
       list {
         shape {
-          dim {
-            size: 20
-          }
           dim {
             size: 4
           }
@@ -14406,7 +14836,7 @@ node {
             size: 1
           }
         }
-        string_val: "global_step"
+        string_val: "fc3/weights"
       }
     }
   }
@@ -14467,7 +14897,7 @@ node {
     key: "dtypes"
     value {
       list {
-        type: DT_INT64
+        type: DT_FLOAT
       }
     }
   }
@@ -14475,12 +14905,156 @@ node {
 node {
   name: "save/Assign_6"
   op: "Assign"
-  input: "global_step"
+  input: "fc3/weights"
   input: "save/RestoreV2_6"
   attr {
     key: "T"
     value {
-      type: DT_INT64
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@fc3/weights"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 20
+          }
+          dim {
+            size: 4
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "save/RestoreV2_7/tensor_names"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        string_val: "global_step"
+      }
+    }
+  }
+}
+node {
+  name: "save/RestoreV2_7/shape_and_slices"
+  op: "Const"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: 1
+          }
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        string_val: ""
+      }
+    }
+  }
+}
+node {
+  name: "save/RestoreV2_7"
+  op: "RestoreV2"
+  input: "save/Const"
+  input: "save/RestoreV2_7/tensor_names"
+  input: "save/RestoreV2_7/shape_and_slices"
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          unknown_rank: true
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtypes"
+    value {
+      list {
+        type: DT_INT32
+      }
+    }
+  }
+}
+node {
+  name: "save/Assign_7"
+  op: "Assign"
+  input: "global_step"
+  input: "save/RestoreV2_7"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
     }
   }
   attr {
@@ -14523,6 +15097,7 @@ node {
   input: "^save/Assign_4"
   input: "^save/Assign_5"
   input: "^save/Assign_6"
+  input: "^save/Assign_7"
 }
 node {
   name: "Model_1/fc1/MatMul"
@@ -14623,9 +15198,35 @@ node {
   }
 }
 node {
+  name: "Model_1/dropout1/Identity"
+  op: "Identity"
+  input: "Model_1/fc1/Relu"
+  attr {
+    key: "T"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+          dim {
+            size: -1
+          }
+          dim {
+            size: 40
+          }
+        }
+      }
+    }
+  }
+}
+node {
   name: "Model_1/fc2/MatMul"
   op: "MatMul"
-  input: "Model_1/fc1/Relu"
+  input: "Model_1/dropout1/Identity"
   input: "fc2/weights/read"
   attr {
     key: "T"
@@ -14721,7 +15322,7 @@ node {
   }
 }
 node {
-  name: "Model_1/dropout/Identity"
+  name: "Model_1/dropout2/Identity"
   op: "Identity"
   input: "Model_1/fc2/Relu"
   attr {
@@ -14749,7 +15350,7 @@ node {
 node {
   name: "Model_1/fc3/MatMul"
   op: "MatMul"
-  input: "Model_1/dropout/Identity"
+  input: "Model_1/dropout2/Identity"
   input: "fc3/weights/read"
   attr {
     key: "T"
@@ -15058,16 +15659,45 @@ node {
 node {
   name: "init_ops/init"
   op: "NoOp"
+  input: "^global_step/Assign"
   input: "^fc1/weights/Assign"
   input: "^fc1/biases/Assign"
   input: "^fc2/weights/Assign"
   input: "^fc2/biases/Assign"
   input: "^fc3/weights/Assign"
   input: "^fc3/biases/Assign"
-  input: "^global_step/Assign"
+  input: "^OptimizeLoss/learning_rate/Assign"
 }
 node {
   name: "init_ops/report_uninitialized_variables/IsVariableInitialized"
+  op: "IsVariableInitialized"
+  input: "global_step"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@global_step"
+      }
+    }
+  }
+  attr {
+    key: "_output_shapes"
+    value {
+      list {
+        shape {
+        }
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_1"
   op: "IsVariableInitialized"
   input: "fc1/weights"
   attr {
@@ -15095,7 +15725,7 @@ node {
   }
 }
 node {
-  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_1"
+  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_2"
   op: "IsVariableInitialized"
   input: "fc1/biases"
   attr {
@@ -15123,7 +15753,7 @@ node {
   }
 }
 node {
-  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_2"
+  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_3"
   op: "IsVariableInitialized"
   input: "fc2/weights"
   attr {
@@ -15151,7 +15781,7 @@ node {
   }
 }
 node {
-  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_3"
+  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_4"
   op: "IsVariableInitialized"
   input: "fc2/biases"
   attr {
@@ -15179,7 +15809,7 @@ node {
   }
 }
 node {
-  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_4"
+  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_5"
   op: "IsVariableInitialized"
   input: "fc3/weights"
   attr {
@@ -15207,7 +15837,7 @@ node {
   }
 }
 node {
-  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_5"
+  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_6"
   op: "IsVariableInitialized"
   input: "fc3/biases"
   attr {
@@ -15235,14 +15865,14 @@ node {
   }
 }
 node {
-  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_6"
+  name: "init_ops/report_uninitialized_variables/IsVariableInitialized_7"
   op: "IsVariableInitialized"
-  input: "global_step"
+  input: "OptimizeLoss/learning_rate"
   attr {
     key: "_class"
     value {
       list {
-        s: "loc:@global_step"
+        s: "loc:@OptimizeLoss/learning_rate"
       }
     }
   }
@@ -15258,7 +15888,7 @@ node {
   attr {
     key: "dtype"
     value {
-      type: DT_INT64
+      type: DT_FLOAT
     }
   }
 }
@@ -15272,10 +15902,11 @@ node {
   input: "init_ops/report_uninitialized_variables/IsVariableInitialized_4"
   input: "init_ops/report_uninitialized_variables/IsVariableInitialized_5"
   input: "init_ops/report_uninitialized_variables/IsVariableInitialized_6"
+  input: "init_ops/report_uninitialized_variables/IsVariableInitialized_7"
   attr {
     key: "N"
     value {
-      i: 7
+      i: 8
     }
   }
   attr {
@@ -15290,7 +15921,7 @@ node {
       list {
         shape {
           dim {
-            size: 7
+            size: 8
           }
         }
       }
@@ -15313,7 +15944,7 @@ node {
       list {
         shape {
           dim {
-            size: 7
+            size: 8
           }
         }
       }
@@ -15329,7 +15960,7 @@ node {
       list {
         shape {
           dim {
-            size: 7
+            size: 8
           }
         }
       }
@@ -15348,16 +15979,17 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 7
+            size: 8
           }
         }
+        string_val: "global_step"
         string_val: "fc1/weights"
         string_val: "fc1/biases"
         string_val: "fc2/weights"
         string_val: "fc2/biases"
         string_val: "fc3/weights"
         string_val: "fc3/biases"
-        string_val: "global_step"
+        string_val: "OptimizeLoss/learning_rate"
       }
     }
   }
@@ -15393,7 +16025,7 @@ node {
             size: 1
           }
         }
-        int_val: 7
+        int_val: 8
       }
     }
   }
@@ -15668,7 +16300,7 @@ node {
             size: 1
           }
         }
-        int_val: 7
+        int_val: 8
       }
     }
   }
@@ -15967,7 +16599,7 @@ node {
       list {
         shape {
           dim {
-            size: 7
+            size: 8
           }
         }
       }
@@ -16033,7 +16665,7 @@ node {
       list {
         shape {
           dim {
-            size: 7
+            size: 8
           }
         }
       }
@@ -16151,10 +16783,12 @@ node {
   input: "parallel_read_1/fraction_of_70_full"
   input: "batch_1/fraction_of_32_full"
   input: "TotalLoss"
+  input: "OptimizeLoss/learning_rate_1"
+  input: "OptimizeLoss/loss"
   attr {
     key: "N"
     value {
-      i: 7
+      i: 9
     }
   }
   attr {
@@ -16182,17 +16816,17 @@ node {
   attr {
     key: "dtype"
     value {
-      type: DT_INT64
+      type: DT_INT32
     }
   }
   attr {
     key: "value"
     value {
       tensor {
-        dtype: DT_INT64
+        dtype: DT_INT32
         tensor_shape {
         }
-        int64_val: 10000
+        int_val: 30000
       }
     }
   }
@@ -16205,7 +16839,7 @@ node {
   attr {
     key: "T"
     value {
-      type: DT_INT64
+      type: DT_INT32
     }
   }
   attr {
@@ -16233,17 +16867,17 @@ node {
   attr {
     key: "dtype"
     value {
-      type: DT_INT64
+      type: DT_INT32
     }
   }
   attr {
     key: "value"
     value {
       tensor {
-        dtype: DT_INT64
+        dtype: DT_INT32
         tensor_shape {
         }
-        int64_val: 100
+        int_val: 100
       }
     }
   }
@@ -16256,7 +16890,7 @@ node {
   attr {
     key: "T"
     value {
-      type: DT_INT64
+      type: DT_INT32
     }
   }
   attr {
@@ -16284,17 +16918,17 @@ node {
   attr {
     key: "dtype"
     value {
-      type: DT_INT64
+      type: DT_INT32
     }
   }
   attr {
     key: "value"
     value {
       tensor {
-        dtype: DT_INT64
+        dtype: DT_INT32
         tensor_shape {
         }
-        int64_val: 0
+        int_val: 0
       }
     }
   }
@@ -16307,7 +16941,7 @@ node {
   attr {
     key: "T"
     value {
-      type: DT_INT64
+      type: DT_INT32
     }
   }
   attr {

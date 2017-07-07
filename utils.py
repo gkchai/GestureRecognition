@@ -70,21 +70,33 @@ class DataSetGenerator(object):
 def create_optimizer(optimizer, learning_rate, momentum=None):
     """Creates desired TF optimizer"""
 
-    if optimizer == 'momentum':
+    if optimizer == 'Momentum':
         tf_optimizer = tf.train.MomentumOptimizer(learning_rate, momentum=momentum)
-    elif optimizer == 'adam':
+    elif optimizer == 'Adam':
         tf_optimizer = tf.train.AdamOptimizer(learning_rate)
-    elif optimizer == 'adadelta':
+    elif optimizer == 'Adadelta':
         tf_optimizer = tf.train.AdadeltaOptimizer(learning_rate)
-    elif optimizer == 'adagrad':
+    elif optimizer == 'Adagrad':
         tf_optimizer = tf.train.AdagradOptimizer(learning_rate)
-    elif optimizer == 'rmsprop':
+    elif optimizer == 'RMPProp':
         tf_optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=momentum)
-    elif optimizer == 'sgd':
+    elif optimizer == 'SGD':
         tf_optimizer = tf.train.GradientDescentOptimizer(learning_rate)
     else:
         raise tf.logging.error("optimizer type not supported")
     return tf_optimizer
+
+
+def create_learning_rate_decay_fn(decay_steps, decay_factor):
+
+    def learning_rate_decay_fn(learning_rate, global_step):
+        return tf.train.exponential_decay(
+                learning_rate,
+                global_step,
+                decay_steps=decay_steps,
+                decay_rate=decay_factor,
+                staircase=True)
+    return learning_rate_decay_fn
 
 
 def listdir_fullpath(d):

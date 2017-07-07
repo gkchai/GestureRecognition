@@ -14,7 +14,7 @@ from tensorflow.contrib import metrics
 from tensorflow import app
 from tensorflow.python.platform import flags
 import loader
-import recognition_model
+import common
 import configuration
 
 FLAGS = flags.FLAGS
@@ -44,18 +44,14 @@ def main(_):
     else:
         preprocess_fn = None
 
-    series, labels, labels_one_hot = loader.load_batch(dataset_eval, batch_size=config.batch_size,
+    # whther it is a 2d input
+    is_2D = common.is_2D(FLAGS.model)
+
+    series, labels, labels_one_hot = loader.load_batch(dataset_eval, batch_size=config.batch_size, is_2D=is_2D,
                                                           preprocess_fn=preprocess_fn)
 
     # Build lazy model
-    if FLAGS.model == 'MLP':
-        model = recognition_model.MLPModel(config, mode='eval')
-    elif FLAGS.model == 'LSTM':
-        model = recognition_model.LSTMModel(config, mode='eval')
-    elif FLAGS.model == 'CNN':
-        model = recognition_model.CNNModel(config, mode='eval')
-    else:
-        raise tf.logging.error("model type not supported")
+    model = common.convert_name_to_instance(FLAGS.model, config, 'eval')
 
     endpoints = model.build(inputs=series, is_training=False)
     predictions = tf.to_int64(tf.argmax(endpoints.logits, 1))

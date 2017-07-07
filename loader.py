@@ -11,16 +11,28 @@ import tensorflow.contrib.slim as slim
 import collections
 
 
-def load_inference_data(path):
+def load_inference_data(path, is_2D= False):
+    """load data in batches as an atlernative to TF reader """
+
     dataset = np.loadtxt(path, delimiter=',')
-    return utils.DataSetGenerator(dataset[:, 1:], dataset[:, 0].astype(np.int32)), dataset
+
+    if is_2D:
+        dataset_2d = []
+        for series in dataset[:, 1:]:
+            # readings are in format: (x1,y1,z1, x2,y2,z2, x3,y3,z3 ...)
+            reshaped_series = series.reshape((-1,3)).T
+            reshaped_series = np.expand_dims(reshaped_series, axis=-1)
+            dataset_2d.append(reshaped_series)
+
+        dataset_2d = np.array(dataset_2d)
+        return utils.DataSetGenerator(dataset_2d, dataset[:, 0].astype(np.int32)), dataset_2d
+
+    else:
+        return utils.DataSetGenerator(dataset[:, 1:], dataset[:, 0].astype(np.int32)), dataset
 
 
 def get_split(split_name, dataset_dir, file_pattern='ges_%s.tfrecords'):
-    """ Obtains the split - training or validation - to create a Dataset class for feeding the examples into
-    a queue later on. This function will set up the decoder and dataset information all into one Dataset
-    class. dataset_dir is directory where the tfrecord files are located. file_pattern is  the file name
-    structure of the tfrecord files in order to get the correct data"""
+    """ Obtains the split - training or validation - to create a Dataset class for feeding the examples."""
 
     # First check whether the split_name is train or validation
     if split_name not in ['train', 'validation', 'test']:
@@ -56,12 +68,12 @@ def get_split(split_name, dataset_dir, file_pattern='ges_%s.tfrecords'):
 
     # Create the items_to_handlers dictionary for the decoder.
     items_to_handlers = {
-    'series': slim.tfexample_decoder.Tensor('series', shape=[120]),
-    'series/x': slim.tfexample_decoder.Tensor('series/x', shape=[40]),
-    'series/y': slim.tfexample_decoder.Tensor('series/y', shape=[40]),
-    'series/z': slim.tfexample_decoder.Tensor('series/z', shape=[40]),
-    'label': slim.tfexample_decoder.Tensor('label', shape=[]),
-    }
+        'series': slim.tfexample_decoder.Tensor('series', shape=[120]),
+        'series/x': slim.tfexample_decoder.Tensor('series/x', shape=[40]),
+        'series/y': slim.tfexample_decoder.Tensor('series/y', shape=[40]),
+        'series/z': slim.tfexample_decoder.Tensor('series/z', shape=[40]),
+        'label': slim.tfexample_decoder.Tensor('label', shape=[]),
+        }
 
     # Start to create the decoder
     decoder = slim.tfexample_decoder.TFExampleDecoder(keys_to_features, items_to_handlers)
@@ -88,7 +100,7 @@ def get_split(split_name, dataset_dir, file_pattern='ges_%s.tfrecords'):
     return dataset
 
 
-def load_batch(dataset, batch_size, preprocess_fn=None, shuffle=False):
+def load_batch(dataset, batch_size, is_2D = False, preprocess_fn=None, shuffle=False):
     """Loads a batch for training. dataset is class object that is created from the get_split function"""
 
     # First create the data_provider object
@@ -97,11 +109,18 @@ def load_batch(dataset, batch_size, preprocess_fn=None, shuffle=False):
         shuffle=shuffle,
         common_queue_capacity=2 * batch_size,
         common_queue_min=batch_size,
-        num_epochs=None,
+        num_epochs=None
     )
 
     # Obtain the raw image using the get method
-    raw_series, label = data_provider.get(['series', 'label'])
+
+    if is_2D:
+        x, y, z, label = data_provider.get(['series/x', 'series/y', 'series/z', 'label'])
+        raw_series = tf.stack([x, y, z])
+        raw_series = tf.expand_dims(raw_series, -1)
+
+    else:
+        raw_series, label = data_provider.get(['series', 'label'])
 
     # convert to int32 from int64
     label = tf.to_int32(label)

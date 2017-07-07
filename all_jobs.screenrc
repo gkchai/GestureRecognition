@@ -3,6 +3,6 @@
 # source /path/to/your/virtualenv/bin/activate
 # screen -R TF -c all_jobs.screenrc
 
-screen -t train 0 python train.py --train_dir=train_dir --summaries_dir=/tmp/ges_rec_logs/train
-screen -t eval_test 1 python evaluate.py --split_name=test --train_dir=train_dir --summaries_dir=/tmp/ges_rec_logs/test
-screen -t tensorboard 2 tensorboard --logdir=
+screen -t train 0 python train.py --model=CNN
+screen -t eval_test 1 python evaluate.py --model=CNN
+screen -t tensorboard 2 tensorboard --logdir=/tmp/ges_recog_logs/

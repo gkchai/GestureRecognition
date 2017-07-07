@@ -10,6 +10,7 @@ from tensorflow.python.tools import freeze_graph
 from tensorflow.python.tools import optimize_for_inference_lib
 import utils
 import loader
+import common
 
 from tensorflow.python.platform import flags
 
@@ -54,7 +55,7 @@ def export(export_path, export_model_name, input_ckpt_name, input_graph_name):
     f.write(output_graph_def.SerializeToString())
 
 
-def export_test(frozen_model_filename):
+def export_test(frozen_model_filename, is_2D):
     """Test the exported file with examples from data"""
 
     print("\n.......Testing %s ........... \n" % frozen_model_filename)
@@ -70,7 +71,7 @@ def export_test(frozen_model_filename):
     x = graph.get_tensor_by_name('prefix/input/x:0')
     y = graph.get_tensor_by_name('prefix/Model/output/y:0')
 
-    data_gen, _ = loader.load_inference_data('processed_data/test')
+    data_gen, _ = loader.load_inference_data('processed_data/test', is_2D)
     inputs, labels = data_gen.next_batch(80)
 
     # We launch a Session to test the exported file
@@ -86,7 +87,10 @@ def export_test(frozen_model_filename):
 if __name__ == '__main__':
 
     FLAGS = flags.FLAGS
-    tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN]")
+    tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN, CNN2D]")
+
+    # whther it is a 2d input
+    is_2D = common.is_2D(FLAGS.model)
 
     model_basename = 'ges_recog_%s' % str.lower(FLAGS.model)
 
@@ -94,5 +98,6 @@ if __name__ == '__main__':
            input_ckpt_name=os.path.join('train_dir', FLAGS.model),
            input_graph_name =model_basename)
 
-    export_test('export_dir/frozen_%s.pb' % model_basename)
-    export_test('export_dir/optimized_%s.pb' % model_basename)
+    # test both exported models
+    export_test('export_dir/frozen_%s.pb' % model_basename, is_2D)
+    export_test('export_dir/optimized_%s.pb' % model_basename, is_2D)

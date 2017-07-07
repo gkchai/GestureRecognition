@@ -2,8 +2,8 @@
 
 Repository for building ML workflows for Gesture Recognition. The following workflows are supported: training,
 evaluation, inference  and exporting. The scripts follow the design of well-known ML models 
-(`https://github.com/tensorflow/models`) that have been implemented using TF-slim. Following deep models are 
- available: MLP, LSTM and CNN.
+(`https://github.com/tensorflow/models`)  implemented using TF-slim. Following deep models are 
+ available: MLP, LSTM, CNN and CNN2D.
 
 ## Application
 
@@ -55,7 +55,7 @@ $ python train.py --h
 Training:
 
 ```sh
-$ python train.py --model MLP --num_of_steps=20000
+$ python train.py --new --model MLP --num_of_steps=20000
 ```
 
 To evaluate an existing or newly generated model ( run in parallel in another window during training):

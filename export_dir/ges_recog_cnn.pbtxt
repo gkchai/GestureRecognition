@@ -1,4 +1,105 @@
 node {
+  name: "global_step/initial_value"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_INT32
+        tensor_shape {
+        }
+        int_val: 0
+      }
+    }
+  }
+}
+node {
+  name: "global_step"
+  op: "VariableV2"
+  attr {
+    key: "container"
+    value {
+      s: ""
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+      }
+    }
+  }
+  attr {
+    key: "shared_name"
+    value {
+      s: ""
+    }
+  }
+}
+node {
+  name: "global_step/Assign"
+  op: "Assign"
+  input: "global_step"
+  input: "global_step/initial_value"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@global_step"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
+  name: "global_step/read"
+  op: "Identity"
+  input: "global_step"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@global_step"
+      }
+    }
+  }
+}
+node {
   name: "input/x"
   op: "Placeholder"
   attr {
@@ -180,13 +281,13 @@ node {
   attr {
     key: "seed"
     value {
-      i: 0
+      i: 31415
     }
   }
   attr {
     key: "seed2"
     value {
-      i: 0
+      i: 10
     }
   }
 }
@@ -1025,7 +1126,7 @@ node {
             size: 4
           }
         }
-        tensor_content: "\004\000\000\000\001\000\000\000\020\000\000\000\016\000\000\000"
+        tensor_content: "\004\000\000\000\001\000\000\000\020\000\000\000\020\000\000\000"
       }
     }
   }
@@ -1054,7 +1155,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: -0.223606795073
+        float_val: -0.21650634706
       }
     }
   }
@@ -1083,7 +1184,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.223606795073
+        float_val: 0.21650634706
       }
     }
   }
@@ -1115,13 +1216,13 @@ node {
   attr {
     key: "seed"
     value {
-      i: 0
+      i: 31415
     }
   }
   attr {
     key: "seed2"
     value {
-      i: 0
+      i: 46
     }
   }
 }
@@ -1222,7 +1323,7 @@ node {
           size: 16
         }
         dim {
-          size: 14
+          size: 16
         }
       }
     }
@@ -1309,7 +1410,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 14
+            size: 16
           }
         }
         float_val: 0.10000000149
@@ -1345,7 +1446,7 @@ node {
     value {
       shape {
         dim {
-          size: 14
+          size: 16
         }
       }
     }
@@ -1485,7 +1586,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 14
+            size: 16
           }
         }
         float_val: 0.0
@@ -1521,7 +1622,7 @@ node {
     value {
       shape {
         dim {
-          size: 14
+          size: 16
         }
       }
     }
@@ -1608,7 +1709,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 14
+            size: 16
           }
         }
         float_val: 0.0
@@ -1644,7 +1745,7 @@ node {
     value {
       shape {
         dim {
-          size: 14
+          size: 16
         }
       }
     }
@@ -1731,7 +1832,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
           dim {
-            size: 14
+            size: 16
           }
         }
         float_val: 1.0
@@ -1767,7 +1868,7 @@ node {
     value {
       shape {
         dim {
-          size: 14
+          size: 16
         }
       }
     }
@@ -1960,7 +2061,7 @@ node {
             size: 2
           }
         }
-        tensor_content: "\220\006\000\000(\000\000\000"
+        tensor_content: "\200\007\000\000(\000\000\000"
       }
     }
   }
@@ -1989,7 +2090,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: -0.0590624436736
+        float_val: -0.0553283318877
       }
     }
   }
@@ -2018,7 +2119,7 @@ node {
         dtype: DT_FLOAT
         tensor_shape {
         }
-        float_val: 0.0590624436736
+        float_val: 0.0553283318877
       }
     }
   }
@@ -2050,13 +2151,13 @@ node {
   attr {
     key: "seed"
     value {
-      i: 0
+      i: 31415
     }
   }
   attr {
     key: "seed2"
     value {
-      i: 0
+      i: 82
     }
   }
 }
@@ -2148,7 +2249,7 @@ node {
     value {
       shape {
         dim {
-          size: 1680
+          size: 1920
         }
         dim {
           size: 40
@@ -2356,7 +2457,7 @@ node {
             size: 2
           }
         }
-        tensor_content: "\377\377\377\377\220\006\000\000"
+        tensor_content: "\377\377\377\377\200\007\000\000"
       }
     }
   }
@@ -2564,13 +2665,13 @@ node {
   attr {
     key: "seed"
     value {
-      i: 0
+      i: 31415
     }
   }
   attr {
     key: "seed2"
     value {
-      i: 0
+      i: 102
     }
   }
 }
@@ -2991,7 +3092,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 14
+            size: 15
           }
         }
         string_val: "Conv_Layer_1"
@@ -3008,6 +3109,7 @@ node {
         string_val: "bias_for_Conv_Layer_1"
         string_val: "bias_for_Conv_Layer_2"
         string_val: "bias_for_Fully_Connected_Layer_1"
+        string_val: "global_step"
       }
     }
   }
@@ -3028,9 +3130,10 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 14
+            size: 15
           }
         }
+        string_val: ""
         string_val: ""
         string_val: ""
         string_val: ""
@@ -3069,6 +3172,7 @@ node {
   input: "bias_for_Conv_Layer_1"
   input: "bias_for_Conv_Layer_2"
   input: "bias_for_Fully_Connected_Layer_1"
+  input: "global_step"
   attr {
     key: "dtypes"
     value {
@@ -3087,6 +3191,7 @@ node {
         type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
+        type: DT_INT32
       }
     }
   }
@@ -4442,6 +4547,101 @@ node {
   }
 }
 node {
+  name: "save/RestoreV2_14/tensor_names"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        string_val: "global_step"
+      }
+    }
+  }
+}
+node {
+  name: "save/RestoreV2_14/shape_and_slices"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        string_val: ""
+      }
+    }
+  }
+}
+node {
+  name: "save/RestoreV2_14"
+  op: "RestoreV2"
+  input: "save/Const"
+  input: "save/RestoreV2_14/tensor_names"
+  input: "save/RestoreV2_14/shape_and_slices"
+  attr {
+    key: "dtypes"
+    value {
+      list {
+        type: DT_INT32
+      }
+    }
+  }
+}
+node {
+  name: "save/Assign_14"
+  op: "Assign"
+  input: "global_step"
+  input: "save/RestoreV2_14"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@global_step"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
   name: "save/restore_all"
   op: "NoOp"
   input: "^save/Assign"
@@ -4458,9 +4658,29 @@ node {
   input: "^save/Assign_11"
   input: "^save/Assign_12"
   input: "^save/Assign_13"
+  input: "^save/Assign_14"
 }
 node {
   name: "report_uninitialized_variables/IsVariableInitialized"
+  op: "IsVariableInitialized"
+  input: "global_step"
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@global_step"
+      }
+    }
+  }
+  attr {
+    key: "dtype"
+    value {
+      type: DT_INT32
+    }
+  }
+}
+node {
+  name: "report_uninitialized_variables/IsVariableInitialized_1"
   op: "IsVariableInitialized"
   input: "Conv_Layer_1"
   attr {
@@ -4479,7 +4699,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_1"
+  name: "report_uninitialized_variables/IsVariableInitialized_2"
   op: "IsVariableInitialized"
   input: "bias_for_Conv_Layer_1"
   attr {
@@ -4498,7 +4718,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_2"
+  name: "report_uninitialized_variables/IsVariableInitialized_3"
   op: "IsVariableInitialized"
   input: "a_conv1/BatchNorm/beta"
   attr {
@@ -4517,7 +4737,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_3"
+  name: "report_uninitialized_variables/IsVariableInitialized_4"
   op: "IsVariableInitialized"
   input: "a_conv1/BatchNorm/moving_mean"
   attr {
@@ -4536,7 +4756,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_4"
+  name: "report_uninitialized_variables/IsVariableInitialized_5"
   op: "IsVariableInitialized"
   input: "a_conv1/BatchNorm/moving_variance"
   attr {
@@ -4555,7 +4775,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_5"
+  name: "report_uninitialized_variables/IsVariableInitialized_6"
   op: "IsVariableInitialized"
   input: "Conv_Layer_2"
   attr {
@@ -4574,7 +4794,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_6"
+  name: "report_uninitialized_variables/IsVariableInitialized_7"
   op: "IsVariableInitialized"
   input: "bias_for_Conv_Layer_2"
   attr {
@@ -4593,7 +4813,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_7"
+  name: "report_uninitialized_variables/IsVariableInitialized_8"
   op: "IsVariableInitialized"
   input: "a_conv2/BatchNorm/beta"
   attr {
@@ -4612,7 +4832,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_8"
+  name: "report_uninitialized_variables/IsVariableInitialized_9"
   op: "IsVariableInitialized"
   input: "a_conv2/BatchNorm/moving_mean"
   attr {
@@ -4631,7 +4851,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_9"
+  name: "report_uninitialized_variables/IsVariableInitialized_10"
   op: "IsVariableInitialized"
   input: "a_conv2/BatchNorm/moving_variance"
   attr {
@@ -4650,7 +4870,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_10"
+  name: "report_uninitialized_variables/IsVariableInitialized_11"
   op: "IsVariableInitialized"
   input: "Fully_Connected_layer_1"
   attr {
@@ -4669,7 +4889,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_11"
+  name: "report_uninitialized_variables/IsVariableInitialized_12"
   op: "IsVariableInitialized"
   input: "bias_for_Fully_Connected_Layer_1"
   attr {
@@ -4688,7 +4908,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_12"
+  name: "report_uninitialized_variables/IsVariableInitialized_13"
   op: "IsVariableInitialized"
   input: "W_fc2"
   attr {
@@ -4707,7 +4927,7 @@ node {
   }
 }
 node {
-  name: "report_uninitialized_variables/IsVariableInitialized_13"
+  name: "report_uninitialized_variables/IsVariableInitialized_14"
   op: "IsVariableInitialized"
   input: "b_fc2"
   attr {
@@ -4742,10 +4962,11 @@ node {
   input: "report_uninitialized_variables/IsVariableInitialized_11"
   input: "report_uninitialized_variables/IsVariableInitialized_12"
   input: "report_uninitialized_variables/IsVariableInitialized_13"
+  input: "report_uninitialized_variables/IsVariableInitialized_14"
   attr {
     key: "N"
     value {
-      i: 14
+      i: 15
     }
   }
   attr {
@@ -4782,9 +5003,10 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 14
+            size: 15
           }
         }
+        string_val: "global_step"
         string_val: "Conv_Layer_1"
         string_val: "bias_for_Conv_Layer_1"
         string_val: "a_conv1/BatchNorm/beta"
@@ -4822,7 +5044,7 @@ node {
             size: 1
           }
         }
-        int_val: 14
+        int_val: 15
       }
     }
   }
@@ -5016,7 +5238,7 @@ node {
             size: 1
           }
         }
-        int_val: 14
+        int_val: 15
       }
     }
   }
@@ -5323,6 +5545,7 @@ node {
 node {
   name: "init"
   op: "NoOp"
+  input: "^global_step/Assign"
   input: "^Conv_Layer_1/Assign"
   input: "^bias_for_Conv_Layer_1/Assign"
   input: "^a_conv1/BatchNorm/beta/Assign"
@@ -5389,7 +5612,7 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 14
+            size: 15
           }
         }
         string_val: "Conv_Layer_1"
@@ -5406,6 +5629,7 @@ node {
         string_val: "bias_for_Conv_Layer_1"
         string_val: "bias_for_Conv_Layer_2"
         string_val: "bias_for_Fully_Connected_Layer_1"
+        string_val: "global_step"
       }
     }
   }
@@ -5426,9 +5650,10 @@ node {
         dtype: DT_STRING
         tensor_shape {
           dim {
-            size: 14
+            size: 15
           }
         }
+        string_val: ""
         string_val: ""
         string_val: ""
         string_val: ""
@@ -5467,6 +5692,7 @@ node {
   input: "bias_for_Conv_Layer_1"
   input: "bias_for_Conv_Layer_2"
   input: "bias_for_Fully_Connected_Layer_1"
+  input: "global_step"
   attr {
     key: "dtypes"
     value {
@@ -5485,6 +5711,7 @@ node {
         type: DT_FLOAT
         type: DT_FLOAT
         type: DT_FLOAT
+        type: DT_INT32
       }
     }
   }
@@ -6840,6 +7067,101 @@ node {
   }
 }
 node {
+  name: "save_1/RestoreV2_14/tensor_names"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        string_val: "global_step"
+      }
+    }
+  }
+}
+node {
+  name: "save_1/RestoreV2_14/shape_and_slices"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_STRING
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_STRING
+        tensor_shape {
+          dim {
+            size: 1
+          }
+        }
+        string_val: ""
+      }
+    }
+  }
+}
+node {
+  name: "save_1/RestoreV2_14"
+  op: "RestoreV2"
+  input: "save_1/Const"
+  input: "save_1/RestoreV2_14/tensor_names"
+  input: "save_1/RestoreV2_14/shape_and_slices"
+  attr {
+    key: "dtypes"
+    value {
+      list {
+        type: DT_INT32
+      }
+    }
+  }
+}
+node {
+  name: "save_1/Assign_14"
+  op: "Assign"
+  input: "global_step"
+  input: "save_1/RestoreV2_14"
+  attr {
+    key: "T"
+    value {
+      type: DT_INT32
+    }
+  }
+  attr {
+    key: "_class"
+    value {
+      list {
+        s: "loc:@global_step"
+      }
+    }
+  }
+  attr {
+    key: "use_locking"
+    value {
+      b: true
+    }
+  }
+  attr {
+    key: "validate_shape"
+    value {
+      b: true
+    }
+  }
+}
+node {
   name: "save_1/restore_all"
   op: "NoOp"
   input: "^save_1/Assign"
@@ -6856,6 +7178,7 @@ node {
   input: "^save_1/Assign_11"
   input: "^save_1/Assign_12"
   input: "^save_1/Assign_13"
+  input: "^save_1/Assign_14"
 }
 versions {
   producer: 22

@@ -10,13 +10,13 @@ from sklearn.metrics import confusion_matrix, classification_report
 
 import configuration
 import loader
-import recognition_model
+import common
 import utils
 
 CLASSES = {0:'pickup', 1: 'steady', 2:'dropoff', 3:'unknown'}
 
 FLAGS = flags.FLAGS
-tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN]")
+tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN, CNN2D]")
 flags.DEFINE_string('checkpoint_file', os.path.join("train_dir", FLAGS.model), 'checkpoint file on which to run inference')
 flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
 flags.DEFINE_integer('num_examples', 1, 'num of examples fow which to run inference')
@@ -32,22 +32,21 @@ def main(_):
     else:
         preprocess_fn = None
 
-    data_gen, dataset = loader.load_inference_data('processed_data/test')
+    # whther it is a 2d input
+    is_2D = common.is_2D(FLAGS.model)
+
+    data_gen, dataset = loader.load_inference_data('processed_data/test', is_2D=is_2D)
 
     g = tf.Graph()
     with g.as_default():
 
-        # Build lazy model
-        if FLAGS.model == 'MLP':
-            model = recognition_model.MLPModel(config, mode='inference')
-        elif FLAGS.model == 'LSTM':
-            model = recognition_model.LSTMModel(config, mode='inference')
-        elif FLAGS.model == 'CNN':
-            model = recognition_model.CNNModel(config, mode='inference')
-        else:
-            raise tf.logging.error("model type not supported")
+        # set seeds
+        tf.set_random_seed(config.random_seed)
 
-        inputs = model.create_inputs()
+        # Build lazy model
+        model = common.convert_name_to_instance(FLAGS.model, config, 'inference')
+
+        inputs = model.create_inputs(is_2D)
         endpoints = model.build(inputs, is_training=False)
 
         # Now we create a saver function that actually restores the variables
