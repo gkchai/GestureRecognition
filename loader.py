@@ -1,5 +1,4 @@
-# Copyright 2017 Motorola Mobility LLC
-# author: krishnag@motorola.com
+# author: kcgarikipati@gmail.com
 
 import os
 import numpy as np

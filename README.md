@@ -1,8 +1,8 @@
-# About
+# Gesture Recognition using TensorFLow
 
 Repository for building ML workflows for Gesture Recognition. The following workflows are supported: training,
-evaluation, inference  and exporting. The scripts follow the design of well-known ML models 
-(`https://github.com/tensorflow/models`)  implemented using TF-slim. Following deep models are 
+evaluation, inference  and exporting. The scripts follow the design of well-known ML models
+(`https://github.com/tensorflow/models`)  implemented using TF-slim. Following deep models are
  available: MLP, LSTM, CNN and CNN2D.
 
 ## Application
@@ -16,7 +16,6 @@ evaluation, inference  and exporting. The scripts follow the design of well-know
 inputs (or the number of features) is 120 per gesture.
 
 ```
-raw data from experiments:  ./raw_data/
 processed data merged into train and test data: ./processed_data/
 data in TF records format: ./dataset/
 ```

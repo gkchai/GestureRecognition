@@ -1,5 +1,4 @@
-# Copyright 2017 Motorola Mobility LLC
-# author: krishnag@motorola.com
+# author: kcgarikipati@gmail.com
 
 """Configuration for model and training parameters"""
 
