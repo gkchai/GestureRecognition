@@ -39,7 +39,7 @@ def export(export_path, export_model_name, input_ckpt_name, input_graph_name):
                               output_frozen_graph_name, clear_devices, "")
 
     input_graph_def = tf.GraphDef()
-    with tf.gfile.Open(output_frozen_graph_name, "r") as f:
+    with tf.gfile.Open(output_frozen_graph_name, "rb") as f:
         data = f.read()
         input_graph_def.ParseFromString(data)
 
