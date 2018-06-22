@@ -4,7 +4,6 @@
 
 import os
 import tensorflow as tf
-from tensorflow.python.platform import flags
 from sklearn.metrics import confusion_matrix, classification_report
 
 import configuration
@@ -14,16 +13,18 @@ import utils
 
 CLASSES = {0:'pickup', 1: 'steady', 2:'dropoff', 3:'unknown'}
 
+flags = tf.app.flags
 FLAGS = flags.FLAGS
 tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN, CNN2D]")
-flags.DEFINE_string('checkpoint_file', os.path.join("train_dir", FLAGS.model), 'checkpoint file on which to run inference')
-flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
-flags.DEFINE_integer('num_examples', 1, 'num of examples fow which to run inference')
+tf.flags.DEFINE_string('checkpoint_file_dir', "train_dir", 'parent directory checkpoint file on which to run inference')
+tf.flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
+tf.flags.DEFINE_integer('num_examples', 1, 'num of examples fow which to run inference')
 tf.flags.DEFINE_string('export_dir', 'export_dir', 'Directory where graph is saved to.')
 
 
 def main(_):
 
+    checkpoint_file = os.path.join(FLAGS.checkpoint_file_dir, FLAGS.model)
     config = configuration.Config()
 
     if FLAGS.preprocess_abs:
@@ -54,10 +55,10 @@ def main(_):
 
         def restore_fn(sess):
             # if given checkpoint is a directory, get the latest model checkpoint
-            if tf.gfile.IsDirectory(FLAGS.checkpoint_file):
-                checkpoint_path = tf.train.latest_checkpoint(FLAGS.checkpoint_file)
+            if tf.gfile.IsDirectory(checkpoint_file):
+                checkpoint_path = tf.train.latest_checkpoint(checkpoint_file)
             else:
-                checkpoint_path = FLAGS.checkpoint_file
+                checkpoint_path = checkpoint_file
 
             return saver.restore(sess, checkpoint_path)
 

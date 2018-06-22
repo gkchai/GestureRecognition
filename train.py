@@ -19,24 +19,24 @@ import common
 import pdb
 
 
-FLAGS = tf.flags.FLAGS
-tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN, CNN2D]")
-tf.flags.DEFINE_string("train_dir", os.path.join("train_dir", FLAGS.model), "Directory for saving and loading checkpoints.")
+FLAGS = tf.app.flags.FLAGS
+tf.app.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN, CNN2D]")
+tf.app.flags.DEFINE_string("train_dir", "train_dir", "Parent directory for saving and loading checkpoints.")
 tf.app.flags.DEFINE_string('checkpoint_path', None, 'The path to a checkpoint from which to fine-tune.')
-tf.flags.DEFINE_integer("num_of_steps", 10000, "Number of training steps.")
-tf.flags.DEFINE_integer("log_every_n_steps", 100, "Frequency at which loss and global step are logged.")
-tf.flags.DEFINE_string('data_dir', 'dataset', 'Directory of stored TF records')
-tf.flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
-tf.flags.DEFINE_string('summaries_dir', '/tmp/ges_rec_logs/train', 'Summaries directory')
-tf.flags.DEFINE_integer('save_summaries_secs', 1, 'The frequency with which summaries are saved, in seconds.')
-tf.flags.DEFINE_integer('save_interval_secs', 600, 'The frequency with which checkpoints are saved, in seconds.')
-tf.flags.DEFINE_boolean('new', False, 'whether to restart the training from scratch')
+tf.app.flags.DEFINE_integer("num_of_steps", 10000, "Number of training steps.")
+tf.app.flags.DEFINE_integer("log_every_n_steps", 100, "Frequency at which loss and global step are logged.")
+tf.app.flags.DEFINE_string('data_dir', 'dataset', 'Directory of stored TF records')
+tf.app.flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
+tf.app.flags.DEFINE_string('summaries_dir', '/tmp/ges_rec_logs/train', 'Summaries directory')
+tf.app.flags.DEFINE_integer('save_summaries_secs', 1, 'The frequency with which summaries are saved, in seconds.')
+tf.app.flags.DEFINE_integer('save_interval_secs', 600, 'The frequency with which checkpoints are saved, in seconds.')
+tf.app.flags.DEFINE_boolean('new', False, 'whether to restart the training from scratch')
 tf.logging.set_verbosity(tf.logging.ERROR)
 
 
 def main(_):
 
-    assert FLAGS.train_dir, "--train_dir is required."
+    train_dir = os.path.join(FLAGS.train_dir, FLAGS.model)
     if tf.gfile.Exists(FLAGS.summaries_dir):
         tf.gfile.DeleteRecursively(FLAGS.summaries_dir)
     tf.gfile.MakeDirs(FLAGS.summaries_dir)
@@ -129,7 +129,7 @@ def main(_):
         slim.learning.train(
                 train_op=train_op,
                 train_step_fn=train_step_fn,
-                logdir=FLAGS.train_dir,
+                logdir=train_dir,
                 log_every_n_steps=FLAGS.log_every_n_steps,
                 graph=g,
                 number_of_steps=FLAGS.num_of_steps,

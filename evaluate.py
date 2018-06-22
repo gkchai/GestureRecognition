@@ -10,27 +10,28 @@ import os
 import tensorflow as tf
 from tensorflow.contrib import slim
 from tensorflow.contrib import metrics
-from tensorflow import app
-from tensorflow.python.platform import flags
 import loader
 import common
 import configuration
 
+flags = tf.app.flags
 FLAGS = flags.FLAGS
-tf.flags.DEFINE_string("model", "MLP", "Type of model [MLP, LSTM, CNN]")
-flags.DEFINE_integer('num_batches', 150, 'Number of batches to run eval for.')
-tf.flags.DEFINE_string("train_dir", os.path.join("train_dir", FLAGS.model), "Directory containing training checkpoints.")
-flags.DEFINE_string('summaries_dir', '/tmp/ges_rec_logs/eval', 'Directory where the evaluation summaries are saved to.')
+
+tf.flags.DEFINE_string('model', 'MLP', 'Type of model [MLP, LSTM, CNN]')
+tf.flags.DEFINE_integer('num_batches', 150, 'Number of batches to run eval for.')
+tf.flags.DEFINE_string('train_dir', 'train_dir', 'Parent directory containing training checkpoints.')
+tf.flags.DEFINE_string('summaries_dir', '/tmp/ges_rec_logs/eval', 'Directory where the evaluation summaries are saved to.')
 tf.flags.DEFINE_string('data_dir', 'dataset', 'Directory of stored TF records')
 tf.flags.DEFINE_bool('preprocess_abs', False, 'apply abs() preprocessing on input data')
-flags.DEFINE_integer('eval_interval_secs', 1, 'Frequency in seconds to run evaluations.')
-flags.DEFINE_integer('num_of_steps', None, 'Number of times to run evaluation.')
+tf.flags.DEFINE_integer('eval_interval_secs', 1, 'Frequency in seconds to run evaluations.')
+tf.flags.DEFINE_integer('num_of_steps', None, 'Number of times to run evaluation.')
 tf.flags.DEFINE_string('split_name', 'test', 'type of split [test or validation] to use on dataset for evaluation')
 tf.logging.set_verbosity(tf.logging.ERROR)
 
 
 def main(_):
-    assert FLAGS.train_dir, "--train_dir is required."
+
+    train_dir = os.path.join(FLAGS.train_dir, FLAGS.model)
     if tf.gfile.Exists(FLAGS.summaries_dir):
         tf.gfile.DeleteRecursively(FLAGS.summaries_dir)
     tf.gfile.MakeDirs(FLAGS.summaries_dir)
@@ -73,7 +74,7 @@ def main(_):
 
     slim.evaluation.evaluation_loop(
         master='',
-        checkpoint_dir=FLAGS.train_dir,
+        checkpoint_dir=train_dir,
         logdir=FLAGS.summaries_dir,
         eval_op=names_to_updates.values(),
         num_evals=min(FLAGS.num_batches, dataset_eval.num_samples),
@@ -84,4 +85,4 @@ def main(_):
         )
 
 if __name__ == '__main__':
-    app.run()
+    tf.app.run(main)
