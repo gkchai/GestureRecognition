@@ -67,7 +67,7 @@ def main(_):
 
     # Create the summary ops such that they also print out to std output:
     summary_ops = []
-    for metric_name, metric_value in names_to_values.iteritems():
+    for metric_name, metric_value in names_to_values.items():
         op = tf.summary.scalar(metric_name, metric_value)
         op = tf.Print(op, [metric_value], metric_name)
         summary_ops.append(op)
@@ -76,7 +76,7 @@ def main(_):
         master='',
         checkpoint_dir=train_dir,
         logdir=FLAGS.summaries_dir,
-        eval_op=names_to_updates.values(),
+        eval_op=list(names_to_updates.values())[0],
         num_evals=min(FLAGS.num_batches, dataset_eval.num_samples),
         eval_interval_secs=FLAGS.eval_interval_secs,
         max_number_of_evaluations=FLAGS.num_of_steps,

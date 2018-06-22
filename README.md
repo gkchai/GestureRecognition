@@ -26,7 +26,7 @@ data in TF records format: ./dataset/
 ## Prerequisites
 
 ### Install dependencies
-Preferred way is in virtualenv (Python 2.7/3.5)
+Preferred way is in conda/virtualenv (Python 3.5)
 ```sh
 pip install --upgrade pip
 pip install -r requirements.txt
