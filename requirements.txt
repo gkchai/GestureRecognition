@@ -2,3 +2,4 @@ numpy
 tensorflow-gpu
 sklearn
 matplotlib
+scipy

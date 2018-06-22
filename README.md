@@ -5,6 +5,8 @@ evaluation, inference  and exporting. The scripts follow the design of well-know
 (`https://github.com/tensorflow/models`)  implemented using TF-slim. Following deep models are
  available: MLP, LSTM, CNN and CNN2D.
 
+***NOTE: LSTM model is incorrectly implemented.***
+
 ## Application
 
 3-axis accelerometer data from a smartphone is used to classify four possible gestures: pickup, steady, dropoff and unknown.
@@ -16,7 +18,7 @@ evaluation, inference  and exporting. The scripts follow the design of well-know
 inputs (or the number of features) is 120 per gesture.
 
 ```
-processed data merged into train and test data: ./processed_data/
+processed data: ./processed_data/
 data in TF records format: ./dataset/
 ```
 
